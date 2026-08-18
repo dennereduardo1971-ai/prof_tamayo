@@ -1,0 +1,22 @@
+# Dependências
+node_modules/
+
+# Saída do empacotamento
+www/
+android/
+ios/
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*

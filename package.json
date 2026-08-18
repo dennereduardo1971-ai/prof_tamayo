@@ -1,0 +1,23 @@
+{
+  "name": "prof-tamayo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Trilha gamificada de estudos para o concurso da Câmara dos Deputados — Analista Legislativo. PWA sem build, empacotável como APK via Capacitor.",
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes http-server -p 8080 -c-1 .",
+    "dev": "npm start",
+    "www": "node scripts/preparar-www.mjs",
+    "android:add": "npm run www && npx cap add android",
+    "android:sync": "npm run www && npx cap sync android",
+    "android:apk": "npm run android:sync && cd android && ./gradlew assembleDebug",
+    "android:abrir": "npm run android:sync && npx cap open android"
+  },
+  "keywords": ["concurso", "camara-dos-deputados", "analista-legislativo", "pwa", "estudos"],
+  "license": "MIT",
+  "devDependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0"
+  }
+}

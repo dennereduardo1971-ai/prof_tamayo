@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+<meta name="theme-color" content="#150a22" />
+<meta name="description" content="Professora Tamayo — trilha gamificada de estudos para o concurso da Câmara dos Deputados (Analista Legislativo)." />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="mobile-web-app-capable" content="yes" />
+<title>Professora Tamayo — Trilha de Estudos</title>
+<link rel="manifest" href="./manifest.webmanifest" />
+<link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/icon-192.png" />
+<link rel="apple-touch-icon" href="./assets/icons/icon-192.png" />
+<link rel="stylesheet" href="./styles/base.css" />
+<link rel="stylesheet" href="./styles/components.css" />
+<link rel="stylesheet" href="./styles/animations.css" />
+<link rel="stylesheet" href="./styles/screens.css" />
+</head>
+<body>
+  <!-- Camada 1: gradiente de fundo + luas/brumas -->
+  <div class="bg-layer" aria-hidden="true">
+    <div class="bg-moon"></div>
+    <div class="bg-mist bg-mist--a"></div>
+    <div class="bg-mist bg-mist--b"></div>
+    <div class="bg-branch bg-branch--left"></div>
+    <div class="bg-branch bg-branch--right"></div>
+  </div>
+
+  <!-- Camada 2: canvas de pétalas (animação real, física de vento) -->
+  <canvas id="petals" class="petal-canvas" aria-hidden="true"></canvas>
+
+  <!-- Camada 3: app -->
+  <div id="app" class="app-root" role="main"></div>
+
+  <!-- Camada 4: efeitos por cima (flashes, level-up, confete de pétalas) -->
+  <div id="fx" class="fx-layer" aria-hidden="true"></div>
+
+  <!-- Toasts -->
+  <div id="toasts" class="toast-stack" role="status" aria-live="polite"></div>
+
+  <!-- Tela de carregamento -->
+  <div id="splash" class="splash">
+    <div class="splash__crest">
+      <svg viewBox="0 0 120 120" width="112" height="112" aria-hidden="true">
+        <defs>
+          <radialGradient id="splashGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffd9e8" stop-opacity=".9"/>
+            <stop offset="70%" stop-color="#e0679a" stop-opacity=".25"/>
+            <stop offset="100%" stop-color="#e0679a" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="60" cy="60" r="56" fill="url(#splashGlow)"/>
+        <g class="splash__petals" fill="#ffc3d9">
+          <path d="M60 20c6 8 6 18 0 26-6-8-6-18 0-26z"/>
+          <path d="M60 20c6 8 6 18 0 26-6-8-6-18 0-26z" transform="rotate(72 60 60)"/>
+          <path d="M60 20c6 8 6 18 0 26-6-8-6-18 0-26z" transform="rotate(144 60 60)"/>
+          <path d="M60 20c6 8 6 18 0 26-6-8-6-18 0-26z" transform="rotate(216 60 60)"/>
+          <path d="M60 20c6 8 6 18 0 26-6-8-6-18 0-26z" transform="rotate(288 60 60)"/>
+        </g>
+        <circle cx="60" cy="60" r="6" fill="#ffe9b0"/>
+      </svg>
+    </div>
+    <p class="splash__title">Professora Tamayo</p>
+    <p class="splash__sub">Respire fundo. A trilha começa agora.</p>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

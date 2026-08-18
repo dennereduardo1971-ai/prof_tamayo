@@ -1,0 +1,22 @@
+{
+  "appId": "br.estudos.proftamayo",
+  "appName": "Professora Tamayo",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#0b0512"
+  },
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "backgroundColor": "#0b0512",
+      "showSpinner": false,
+      "androidSplashResourceName": "splash",
+      "launchAutoHide": true,
+      "launchShowDuration": 900
+    }
+  }
+}

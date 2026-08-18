@@ -1,0 +1,183 @@
+/* ============================================================
+   Professora Tamayo — animações
+   ============================================================ */
+
+@keyframes luaPulso{
+  0%,100%{ transform:scale(1); opacity:.85; }
+  50%{ transform:scale(1.06); opacity:1; }
+}
+
+@keyframes bruma{
+  0%,100%{ transform:translateX(-6%) translateY(0); opacity:.55; }
+  50%{ transform:translateX(8%) translateY(-14px); opacity:.85; }
+}
+
+@keyframes galhoBalanco{
+  0%,100%{ transform:rotate(-1.6deg); }
+  50%{ transform:rotate(1.9deg); }
+}
+.bg-branch--right{ animation-name:galhoBalancoEsp; }
+@keyframes galhoBalancoEsp{
+  0%,100%{ transform:scaleX(-1) rotate(-1.6deg); }
+  50%{ transform:scaleX(-1) rotate(1.9deg); }
+}
+
+@keyframes girarLento{ to{ transform:rotate(360deg); } }
+
+@keyframes surgir{
+  from{ opacity:0; transform:translateY(14px) scale(.985); }
+  to{ opacity:1; transform:none; }
+}
+@keyframes surgirLat{
+  from{ opacity:0; transform:translateX(26px); }
+  to{ opacity:1; transform:none; }
+}
+@keyframes sairLat{
+  from{ opacity:1; transform:none; }
+  to{ opacity:0; transform:translateX(-26px); }
+}
+
+@keyframes pulsar{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.05); }
+}
+
+@keyframes tremer{
+  0%,100%{ transform:translateX(0); }
+  15%{ transform:translateX(-9px) rotate(-.7deg); }
+  30%{ transform:translateX(8px) rotate(.7deg); }
+  45%{ transform:translateX(-6px); }
+  60%{ transform:translateX(5px); }
+  75%{ transform:translateX(-3px); }
+}
+
+@keyframes brilhoVarrer{
+  from{ transform:translateX(-120%) skewX(-18deg); }
+  to{ transform:translateX(320%) skewX(-18deg); }
+}
+
+@keyframes anelPulso{
+  from{ transform:scale(.4); opacity:.75; }
+  to{ transform:scale(2.6); opacity:0; }
+}
+
+@keyframes subirSumir{
+  0%{ transform:translateY(0) scale(.8); opacity:0; }
+  18%{ transform:translateY(-10px) scale(1.12); opacity:1; }
+  100%{ transform:translateY(-72px) scale(1); opacity:0; }
+}
+
+@keyframes respirar{
+  0%,100%{ transform:translateY(0) scaleY(1); }
+  50%{ transform:translateY(-2.5px) scaleY(1.012); }
+}
+
+@keyframes piscar{
+  0%,92%,100%{ transform:scaleY(1); }
+  95%{ transform:scaleY(.06); }
+}
+
+@keyframes cabeloOndular{
+  0%,100%{ transform:rotate(-1.2deg) translateX(0); }
+  50%{ transform:rotate(1.4deg) translateX(1.5px); }
+}
+
+@keyframes flutuar{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-7px); }
+}
+
+@keyframes selarNivel{
+  0%{ transform:scale(.2) rotate(-40deg); opacity:0; }
+  55%{ transform:scale(1.22) rotate(6deg); opacity:1; }
+  75%{ transform:scale(.94) rotate(-2deg); }
+  100%{ transform:scale(1) rotate(0); opacity:1; }
+}
+
+@keyframes trilhaPercorrer{
+  to{ stroke-dashoffset:0; }
+}
+
+@keyframes escrever{
+  from{ opacity:0; transform:translateY(6px); filter:blur(3px); }
+  to{ opacity:1; transform:none; filter:none; }
+}
+
+@keyframes barraEncher{
+  from{ width:0; }
+}
+
+@keyframes fogoStreak{
+  0%,100%{ transform:scale(1) rotate(-2deg); filter:drop-shadow(0 0 6px rgba(255,140,80,.7)); }
+  50%{ transform:scale(1.14) rotate(3deg); filter:drop-shadow(0 0 14px rgba(255,170,90,.95)); }
+}
+
+@keyframes cintilar{
+  0%,100%{ opacity:.35; transform:scale(.85); }
+  50%{ opacity:1; transform:scale(1.15); }
+}
+
+@keyframes bordaCorrer{
+  to{ background-position:220% 0; }
+}
+
+/* --------- classes utilitárias de animação --------- */
+.anim-surgir{ animation:surgir calc(.42s / var(--vel,1)) cubic-bezier(.16,.84,.34,1) both; }
+.anim-lat{ animation:surgirLat calc(.36s / var(--vel,1)) cubic-bezier(.16,.84,.34,1) both; }
+.anim-tremer{ animation:tremer calc(.5s / var(--vel,1)) ease both; }
+.anim-pulsar{ animation:pulsar calc(1.8s / var(--vel,1)) ease-in-out infinite; }
+.anim-flutuar{ animation:flutuar calc(4.5s / var(--vel,1)) ease-in-out infinite; }
+.anim-selar{ animation:selarNivel calc(.7s / var(--vel,1)) cubic-bezier(.2,1.5,.4,1) both; }
+
+/* atraso escalonado em listas */
+.stagger > *{ animation:surgir calc(.42s / var(--vel,1)) cubic-bezier(.16,.84,.34,1) both; }
+.stagger > *:nth-child(1){ animation-delay:.02s }
+.stagger > *:nth-child(2){ animation-delay:.06s }
+.stagger > *:nth-child(3){ animation-delay:.10s }
+.stagger > *:nth-child(4){ animation-delay:.14s }
+.stagger > *:nth-child(5){ animation-delay:.18s }
+.stagger > *:nth-child(6){ animation-delay:.22s }
+.stagger > *:nth-child(7){ animation-delay:.26s }
+.stagger > *:nth-child(8){ animation-delay:.30s }
+.stagger > *:nth-child(9){ animation-delay:.34s }
+.stagger > *:nth-child(10){ animation-delay:.38s }
+.stagger > *:nth-child(n+11){ animation-delay:.42s }
+
+/* --------- efeitos da camada FX --------- */
+.fx-flash{
+  position:absolute; inset:0;
+  animation:fxFlash calc(.62s / var(--vel,1)) ease-out forwards;
+}
+@keyframes fxFlash{
+  0%{ opacity:.62; }
+  100%{ opacity:0; }
+}
+.fx-flash--certo{ background:radial-gradient(circle at 50% 62%, rgba(79,209,165,.55), transparent 62%); }
+.fx-flash--errado{ background:radial-gradient(circle at 50% 62%, rgba(255,107,122,.5), transparent 62%); }
+.fx-flash--ouro{ background:radial-gradient(circle at 50% 50%, rgba(232,192,125,.6), transparent 66%); }
+.fx-flash--sakura{ background:radial-gradient(circle at 50% 50%, rgba(242,134,174,.55), transparent 66%); }
+
+.fx-ring{
+  position:absolute; left:50%; top:50%; width:180px; height:180px; margin:-90px 0 0 -90px;
+  border-radius:50%; border:2px solid rgba(255,199,224,.85);
+  animation:anelPulso calc(.9s / var(--vel,1)) cubic-bezier(.2,.7,.3,1) forwards;
+}
+
+.fx-float{
+  position:absolute; font-family:var(--f-display); font-weight:700; font-size:30px;
+  color:var(--ouro-claro); text-shadow:0 2px 14px rgba(232,192,125,.7);
+  animation:subirSumir calc(1.25s / var(--vel,1)) cubic-bezier(.2,.7,.3,1) forwards;
+  pointer-events:none; white-space:nowrap;
+}
+
+/* Cortina de transição entre telas (corte de lâmina) */
+.fx-slash{
+  position:absolute; inset:-20%;
+  background:linear-gradient(105deg, transparent 44%, rgba(255,214,232,.9) 49%, rgba(255,255,255,.95) 50%, rgba(255,214,232,.9) 51%, transparent 56%);
+  animation:fxSlash calc(.5s / var(--vel,1)) cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes fxSlash{
+  0%{ transform:translateX(-115%); opacity:0; }
+  25%{ opacity:1; }
+  100%{ transform:translateX(115%); opacity:0; }
+}

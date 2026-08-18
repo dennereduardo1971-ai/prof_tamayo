@@ -1,0 +1,25 @@
+{
+  "name": "Professora Tamayo — Trilha de Estudos",
+  "short_name": "Prof. Tamayo",
+  "description": "Trilha gamificada de estudos para o concurso da Câmara dos Deputados — Analista Legislativo. Aulas, exercícios, simulados e repetição espaçada, com a Professora Tamayo guiando cada nível.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#0b0512",
+  "theme_color": "#150a22",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "./assets/icons/favicon-64.png", "sizes": "64x64", "type": "image/png" },
+    { "src": "./assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Revisão do dia", "short_name": "Revisar", "url": "./index.html#revisao", "icons": [{ "src": "./assets/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Simulado", "short_name": "Simulado", "url": "./index.html#simulado", "icons": [{ "src": "./assets/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

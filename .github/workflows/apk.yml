@@ -1,0 +1,71 @@
+name: Gerar APK (Android)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tipo:
+        description: "Tipo de build"
+        required: true
+        default: debug
+        type: choice
+        options: [debug, release-unsigned]
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Instalar Capacitor
+        run: npm install
+
+      - name: Montar www/ e criar projeto Android
+        run: |
+          npm run www
+          npx cap add android
+          npx cap sync android
+
+      - name: Compilar APK
+        working-directory: android
+        run: |
+          chmod +x ./gradlew
+          if [ "${{ github.event.inputs.tipo }}" = "release-unsigned" ]; then
+            ./gradlew assembleRelease
+          else
+            ./gradlew assembleDebug
+          fi
+
+      - name: Localizar o APK
+        id: apk
+        run: |
+          CAMINHO=$(find android/app/build/outputs/apk -name "*.apk" | head -n 1)
+          echo "caminho=$CAMINHO" >> "$GITHUB_OUTPUT"
+          echo "APK gerado em $CAMINHO"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: professora-tamayo-apk
+          path: ${{ steps.apk.outputs.caminho }}
+          if-no-files-found: error
+
+      - name: Anexar à release (quando houver tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.apk.outputs.caminho }}
