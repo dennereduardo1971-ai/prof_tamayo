@@ -978,5 +978,624 @@ export default {
       ],
     },
 
+
+    {
+      id: 'rlm-8',
+      titulo: 'Porcentagem, juros simples e juros compostos',
+      subtitulo: 'O dinheiro da prova',
+      topicos: ['Porcentagem e fator multiplicativo', 'Aumentos e descontos sucessivos', 'Variação percentual', 'Juros simples', 'Juros compostos', 'Taxas proporcionais e equivalentes'],
+      aula: {
+        intro: 'Aqui a banca não testa cálculo difícil: testa se você entendeu <b>sobre o que</b> a porcentagem incide. Domine o fator multiplicativo e metade dessas questões cai sozinha.',
+        blocos: [
+          {
+            t: 'Porcentagem é fração de denominador 100',
+            p: [
+              'Todo percentual é uma fração com 100 embaixo, e por isso pode aparecer com três roupas diferentes — a mesma pessoa, roupas distintas:',
+            ],
+            lista: [
+              '**Percentual**: 20%. **Fração**: 20/100 = 1/5. **Decimal**: 0,20.',
+              'Para ir de percentual a decimal, ande com a vírgula **duas casas para a esquerda**: 7% = 0,07; 150% = 1,50; 0,5% = 0,005.',
+              'Para ir de decimal a percentual, duas casas para a **direita**: 0,035 = 3,5%.',
+              'Frações que vale a pena reconhecer de olho: 1/2 = 50%, 1/3 ≈ 33,33%, 1/4 = 25%, 1/5 = 20%, 1/8 = 12,5%, 1/10 = 10%, 3/4 = 75%.',
+              '"x% de um valor" é sempre **multiplicação**: 15% de 240 = 0,15 × 240 = **36**.',
+            ],
+          },
+          {
+            t: 'Porcentagem é número relativo: 1% de quê?',
+            p: [
+              'Percentual sozinho não significa nada. Antes de calcular, localize o **todo** (a base, os 100%). Duas porcentagens só podem ser comparadas ou somadas quando repousam sobre a mesma base.',
+              'Exemplo do erro: um produto custava R$ 200,00 e subiu 25%, indo para R$ 250,00. Qual desconto devolve o preço a R$ 200,00? Não é 25%. O desconto de R$ 50,00 agora incide sobre R$ 250,00, e 50 ÷ 250 = 0,20 = **20%**. Subir 25% e cair 20% se anulam, porque as bases são diferentes.',
+              'Porcentagem **de** porcentagem também é multiplicação: 60% de 85% = 0,60 × 0,85 = 0,51 = **51%**.',
+            ],
+          },
+          {
+            t: 'O fator multiplicativo: a ferramenta que resolve tudo',
+            p: [
+              'Em vez de calcular a parte e depois somar, multiplique de uma vez pelo **fator**. Aumento de i por cento tem fator `1 + i`; desconto de i por cento tem fator `1 − i`.',
+            ],
+            lista: [
+              'Aumento de 30% → fator **1,30**. Aumento de 8% → fator **1,08**. Aumento de 100% → fator **2,00**.',
+              'Desconto de 30% → fator **0,70**. Desconto de 8% → fator **0,92**. Desconto de 5% → fator **0,95**.',
+              '**Sucessivos: multiplique os fatores.** Dois aumentos de 20% e 30%: 1,20 × 1,30 = **1,56**, ou seja, aumento único de **56%** — e não de 50%.',
+              'Aumento de 25% seguido de desconto de 20%: 1,25 × 0,80 = **1,00**. O preço volta exatamente ao valor inicial: variação **zero**.',
+              'Dois descontos de 10%: 0,90 × 0,90 = **0,81**, isto é, desconto único de **19%**, nunca de 20%.',
+              'A ordem dos fatores não altera o resultado: 1,20 × 0,90 = 0,90 × 1,20 = 1,08. Aumentar 20% e depois descontar 10% dá o mesmo que descontar 10% e depois aumentar 20% — os dois casos terminam em alta de 8%.',
+            ],
+          },
+          {
+            t: 'Variação percentual: de quanto aumentou?',
+            p: [
+              'A pergunta "aumentou quantos por cento?" tem uma única fórmula: `variação = (valor final − valor inicial) ÷ valor inicial`. O denominador é **sempre** o valor de partida.',
+              'Exemplo resolvido: uma equipe resolvia 35% das ocorrências e passou a resolver 63%. De quanto foi o ganho de eficácia? Passo 1 — diferença: 63 − 35 = 28. Passo 2 — divida pelo inicial: 28 ÷ 35 = 0,8. Passo 3 — em percentual: **80%**. Repare: a diferença em pontos é de 28 **pontos percentuais**, mas o aumento é de 80%. A banca vive nessa confusão.',
+              'Guarde a distinção: **ponto percentual** é subtração de percentuais; **variação percentual** é divisão pelo valor inicial.',
+            ],
+          },
+          {
+            t: 'Juros simples: crescimento em linha reta',
+            p: [
+              'No regime **simples**, os juros de cada período incidem sempre sobre o capital inicial. O dinheiro cresce como uma escada de degraus iguais.',
+            ],
+            lista: [
+              'Fórmulas: `J = C · i · t` e `M = C + J = C · (1 + i · t)`, em que C é o capital, i a taxa (em decimal) e t o prazo.',
+              '**A taxa e o prazo têm de estar na mesma unidade de tempo.** Taxa mensal exige prazo em meses; taxa anual exige prazo em anos. Isso é lei.',
+              'Exemplo resolvido: R$ 8.000,00 a 2% ao mês por 5 meses. J = 8.000 × 0,02 × 5 = **R$ 800,00**, e o montante é 8.000 + 800 = **R$ 8.800,00**.',
+              '**Taxas proporcionais** (só valem no regime simples): basta dividir ou multiplicar direto. 24% ao ano = 2% ao mês; 1% ao mês = 12% ao ano; 6% ao semestre = 12% ao ano.',
+              'Quanto tempo para dobrar? Dobrar significa J = C, logo 1 = i · t. A 5% ao mês: t = 1 ÷ 0,05 = **20 meses**. Para triplicar, J = 2C, então t = 2 ÷ 0,05 = **40 meses**.',
+            ],
+          },
+          {
+            t: 'Juros compostos: juros sobre juros',
+            p: [
+              'No regime **composto**, os juros de cada período entram na base do período seguinte. É o fator multiplicativo aplicado repetidas vezes.',
+            ],
+            lista: [
+              'Fórmula: `M = C · (1 + i)^t`, e os juros são `J = M − C`.',
+              'Exemplo resolvido, ano a ano: R$ 10.000,00 a 10% ao ano. 1º ano: 10.000 × 1,1 = 11.000. 2º ano: 11.000 × 1,1 = 12.100. 3º ano: 12.100 × 1,1 = **13.310**. Confere com a fórmula: 1,1³ = 1,331 e 10.000 × 1,331 = 13.310.',
+              'Compare com o regime simples no mesmo caso: J simples = 10.000 × 0,1 × 3 = 3.000, enquanto J composto = 13.310 − 10.000 = **3.310**. A diferença de R$ 310,00 é exatamente o juro que rendeu sobre juro.',
+              'Regra de comparação, sempre válida: para t = 1 período os dois regimes dão o **mesmo** resultado; para t maior que 1, o **composto rende mais**; para t menor que 1 (frações de período), o simples rende mais.',
+              '**Taxas equivalentes** (regime composto): não se divide taxa, se usa potência. 20% ao semestre em um ano: (1,20)² = 1,44, logo **44% ao ano** — e não 40%. Do outro lado, 44% ao ano equivale a 20% ao semestre.',
+              '**Desconto**: quando um título é pago antes do vencimento, abate-se o desconto. No desconto **comercial simples**, `D = N · i · t`, calculado sobre o valor nominal N (o valor de face); o valor recebido é `N − D`. Ex.: título de R$ 5.000,00 descontado 3 meses antes, a 2% ao mês: D = 5.000 × 0,02 × 3 = 300, e recebe-se **R$ 4.700,00**.',
+            ],
+          },
+        ],
+        destaques: [
+          { tipo: 'perigo', rot: 'Somar percentuais sucessivos', txt: 'Aumentos de 20% e 30% <b>não</b> somam 50%: os fatores multiplicam, 1,20 × 1,30 = 1,56, ou 56%. Do mesmo modo, subir 20% e depois cair 20% não devolve o preço original — 1,20 × 0,80 = 0,96, uma perda de 4%. Percentual sucessivo <b>nunca</b> se soma, porque a base muda a cada etapa.' },
+          { tipo: 'dica', rot: 'Teste com R$ 100,00', txt: 'Quando a questão fala em percentuais sem dar valores, invente o capital de R$ 100,00 e faça a conta concreta. Dois descontos de 10%: 100 → 90 → 81, logo desconto total de 19%. Em dez segundos você elimina as alternativas erradas, sem álgebra nenhuma.' },
+        ],
+        resumo: [
+          'Aumento tem fator 1 + i; desconto, 1 − i; sucessivos multiplicam os fatores.',
+          'Variação percentual = (final − inicial) ÷ inicial. Ponto percentual é outra coisa.',
+          'Juros simples: J = C · i · t, com taxa e prazo na mesma unidade de tempo.',
+          'Juros compostos: M = C · (1 + i)^t; taxa equivalente usa potência, não divisão.',
+        ],
+      },
+      questoes: [
+        {
+          id: 'rlm8-01', dif: 2, tipo: 'multipla',
+          enunciado: 'Um serviço sofreu dois reajustes sucessivos: primeiro de 20% e, em seguida, de 30% sobre o valor já reajustado. O aumento percentual acumulado foi de',
+          alts: ['56%.', '50%.', '60%.', '25%.', '52%.'],
+          correta: 0,
+          expl: 'Passo 1 — escreva cada reajuste como fator: 20% → **1,20**; 30% → **1,30**. Passo 2 — sucessivos se multiplicam: 1,20 × 1,30 = **1,56**. Passo 3 — o fator 1,56 significa 156% do valor inicial, isto é, aumento de **56%**. Conferência com R$ 100,00: 100 × 1,20 = 120, e 120 × 1,30 = 156 — subiu 56 reais em 100. A alternativa 50% é a armadilha de quem soma os percentuais, esquecendo que o segundo reajuste incide sobre uma base maior.',
+          tags: ['porcentagem', 'aumentos sucessivos'],
+        },
+        {
+          id: 'rlm8-02', dif: 3, tipo: 'multipla',
+          enunciado: 'O preço de um equipamento sofreu um aumento de 25% e, depois, um desconto de 20% sobre o novo preço. Em relação ao preço original, o preço final',
+          alts: ['permaneceu igual.', 'aumentou 5%.', 'diminuiu 5%.', 'aumentou 45%.', 'diminuiu 2,5%.'],
+          correta: 0,
+          expl: 'Passo 1 — fatores: aumento de 25% → **1,25**; desconto de 20% → **0,80**. Passo 2 — multiplique: 1,25 × 0,80 = **1,00**. Passo 3 — fator igual a 1 significa **nenhuma variação**. Conferência com R$ 200,00: 200 × 1,25 = 250, e 250 × 0,80 = 200. Voltou ao mesmo ponto. O motivo é que 25% incidiram sobre 200 (R$ 50,00) e os 20% incidiram sobre 250 (também R$ 50,00): o mesmo valor absoluto sobre bases diferentes.',
+          tags: ['porcentagem', 'descontos sucessivos'],
+        },
+        {
+          id: 'rlm8-03', dif: 2, tipo: 'multipla',
+          enunciado: 'Um capital de R$ 8.000,00 foi aplicado a juros simples, à taxa de 2% ao mês, durante 5 meses. Os juros produzidos por essa aplicação foram de',
+          alts: ['R$ 800,00.', 'R$ 8.800,00.', 'R$ 832,65.', 'R$ 1.000,00.', 'R$ 400,00.'],
+          correta: 0,
+          expl: 'Passo 1 — a taxa é mensal e o prazo está em meses, então nada precisa ser convertido. Passo 2 — passe a taxa para decimal: 2% = **0,02**. Passo 3 — aplique J = C · i · t: J = 8.000 × 0,02 × 5. Fazendo por partes: 8.000 × 0,02 = 160 (juro de um mês), e 160 × 5 = **R$ 800,00**. Cuidado com a pegadinha da alternativa R$ 8.800,00: aquele é o **montante** (capital + juros), não os juros. R$ 832,65 seria aproximadamente o resultado em juros compostos, que a questão não pediu.',
+          tags: ['juros simples'],
+        },
+        {
+          id: 'rlm8-04', dif: 3, tipo: 'multipla',
+          enunciado: 'Aplicando-se R$ 10.000,00 a juros compostos, à taxa de 10% ao ano, o montante ao final de 3 anos será de',
+          alts: ['R$ 13.310,00.', 'R$ 13.000,00.', 'R$ 12.100,00.', 'R$ 13.300,00.', 'R$ 11.331,00.'],
+          correta: 0,
+          expl: 'Passo 1 — fórmula: M = C · (1 + i)^t, com C = 10.000, i = 0,10 e t = 3. Passo 2 — calcule a potência com cuidado: 1,1² = 1,21 e 1,1³ = 1,21 × 1,1 = **1,331**. Passo 3 — multiplique: 10.000 × 1,331 = **R$ 13.310,00**. Conferência ano a ano, que é o jeito mais seguro: 10.000 → 11.000 → 12.100 → 13.310. A alternativa R$ 13.000,00 é o montante em juros **simples** (10.000 + 3.000), e R$ 12.100,00 é o montante de apenas 2 anos.',
+          tags: ['juros compostos'],
+        },
+        {
+          id: 'rlm8-05', dif: 3, tipo: 'ce',
+          base: 'Um capital aplicado a juros simples, à taxa de 5% ao mês, triplica de valor em 40 meses.',
+          enunciado: 'Julgue o item.',
+          correta: 0,
+          expl: 'Certo. Passo 1 — traduza "triplicar": o montante vale 3C, e como M = C + J, os juros precisam valer J = **2C**. Passo 2 — substitua em J = C · i · t: 2C = C × 0,05 × t. Passo 3 — o capital C corta dos dois lados (e é por isso que o valor do capital nem foi informado): 2 = 0,05t, logo t = 2 ÷ 0,05 = **40 meses**. Conferência com R$ 100,00: juro mensal de R$ 5,00 durante 40 meses são R$ 200,00 de juros, e 100 + 200 = 300 — exatamente o triplo. Guarde o par: a 5% ao mês, dobra em 20 meses e triplica em 40.',
+          tags: ['juros simples'],
+        },
+        {
+          id: 'rlm8-06', dif: 2, tipo: 'ce',
+          base: 'Uma mercadoria que recebe dois descontos sucessivos de 10% cada um tem, ao final, desconto total de 20% sobre o preço inicial.',
+          enunciado: 'Julgue o item.',
+          correta: 1,
+          expl: 'Errado. Descontos sucessivos multiplicam fatores, não somam percentuais. Passo 1 — fatores: 0,90 e 0,90. Passo 2 — multiplique: 0,90 × 0,90 = **0,81**. Passo 3 — pagar 81% do preço significa desconto de **19%**, e não de 20%. Conferência com R$ 100,00: 100 → 90 (primeiro desconto de R$ 10,00) → 81 (segundo desconto de apenas R$ 9,00, porque incidiu sobre 90). Aquele real de diferença é toda a questão.',
+          tags: ['porcentagem', 'descontos sucessivos'],
+        },
+        {
+          id: 'rlm8-07', dif: 3, tipo: 'multipla',
+          enunciado: 'Uma equipe de segurança resolvia 35% das ocorrências registradas por mês. Após uma reestruturação, passou a resolver 63% dessas ocorrências. O aumento percentual da eficácia da equipe foi de',
+          alts: ['80%.', '28%.', '63%.', '41%.', '35%.'],
+          correta: 0,
+          expl: 'Passo 1 — a pergunta é de **variação percentual**, cuja fórmula é (final − inicial) ÷ inicial. Passo 2 — diferença: 63 − 35 = **28**. Passo 3 — divida pelo valor inicial, nunca pelo final: 28 ÷ 35 = **0,8**. Passo 4 — em percentual: **80%**. Conferência com número concreto: em 100 ocorrências, antes se resolviam 35 e agora 63; 63 é quase o dobro de 35, logo um aumento perto de 80% faz sentido. A alternativa 28% confunde **pontos percentuais** (a subtração) com aumento percentual (a divisão), e 41% vem de dividir 28 por 68, base que não existe aqui.',
+          tags: ['variação percentual'],
+        },
+        {
+          id: 'rlm8-08', dif: 3, tipo: 'ce',
+          base: 'No regime de juros compostos, uma taxa de 20% ao semestre é equivalente a uma taxa de 44% ao ano.',
+          enunciado: 'Julgue o item.',
+          correta: 0,
+          expl: 'Certo. Passo 1 — um ano tem **dois** semestres, então o fator semestral é aplicado duas vezes. Passo 2 — calcule a potência: (1 + 0,20)² = 1,20 × 1,20 = **1,44**. Passo 3 — o fator 1,44 corresponde a **44% ao ano**. Conferência com R$ 1.000,00: no primeiro semestre vai a 1.200, no segundo a 1.200 × 1,20 = 1.440 — cresceu 440 em 1.000, ou 44%. Note o contraste com o regime simples, no qual as taxas são apenas proporcionais e 20% ao semestre daria 40% ao ano. Em juros compostos, taxa equivalente se obtém por **potência**, nunca por multiplicação.',
+          tags: ['juros compostos', 'taxas equivalentes'],
+        },
+      ],
+    },
+
+
+    {
+      id: 'rlm-9',
+      titulo: 'Análise combinatória',
+      subtitulo: 'Contar sem contar um por um',
+      topicos: ['Princípio fundamental da contagem', 'Fatorial', 'Permutação simples e com repetição', 'Arranjo', 'Combinação', 'Contagem com restrição'],
+      aula: {
+        intro: 'Combinatória tem pouquíssima fórmula e muita decisão. A pergunta que resolve quase tudo é uma só: <b>a ordem importa?</b> Erre essa pergunta e nenhuma fórmula te salva; acerte, e a conta é aritmética de escola.',
+        blocos: [
+          {
+            t: 'O princípio fundamental da contagem: E multiplica, OU soma',
+            p: [
+              'Se uma tarefa tem etapas, e cada etapa pode ser feita de um certo número de modos, o total é o **produto** dos modos. É só isso, e daqui sai tudo o mais.',
+            ],
+            lista: [
+              '**E multiplica.** Com 2 calças **e** 3 camisas você se veste de 2 × 3 = **6** maneiras.',
+              '**OU soma.** Se pode usar 2 calças **ou** 1 saia, essa categoria oferece 2 + 1 = **3** opções.',
+              'Exemplo combinando os dois: quem tem 4 camisas, 2 calças, 1 saia e 3 sapatos se veste de 4 × (2 + 1) × 3 = **36** maneiras.',
+              'Desenhe **tracinhos**, um para cada etapa, e escreva quantas opções cabem em cada um. Depois multiplique. Esse desenho é o método mais seguro que existe nesta matéria.',
+              'Exemplo com restrição: quantos números de 3 algarismos **distintos** existem usando 1, 2, 3, 4 e 5? Primeiro tracinho: 5 opções. Segundo: 4 (não pode repetir). Terceiro: 3. Total: 5 × 4 × 3 = **60**.',
+            ],
+          },
+          {
+            t: 'Fatorial: a máquina de contar filas',
+            p: [
+              '`n!` (leia "n fatorial") é o produto de todos os naturais de 1 até n. Por definição, `0! = 1` e `1! = 1`.',
+            ],
+            lista: [
+              'Tabela que vale decorar: 2! = 2; 3! = 6; 4! = 24; 5! = 120; 6! = 720; 7! = 5.040; 8! = 40.320.',
+              'Todo fatorial contém os menores dentro de si: 8! = 8 × 7 × 6 × 5!. Essa propriedade existe para você **simplificar**, não para calcular tudo.',
+              'Exemplo: `8! ÷ 5!` não precisa de 40.320. Escreva 8! = 8 × 7 × 6 × 5!, corte o 5! de cima com o de baixo e sobra 8 × 7 × 6 = **336**.',
+              'Regra de bolso: se você está multiplicando fatoriais inteiros na calculadora mental, provavelmente esqueceu de simplificar.',
+            ],
+          },
+          {
+            t: 'Permutação: todos entram na fila',
+            p: [
+              '**Permutação** é o caso em que **todos** os elementos são usados, e o que muda é apenas a ordem. Número de permutações de n elementos distintos: `Pn = n!`.',
+            ],
+            lista: [
+              'Exemplo: de quantas formas 5 servidores podem sentar em 5 cadeiras em fila? 5! = **120**.',
+              '**Permutação com repetição** (anagramas de palavra com letras repetidas): divida pelos fatoriais das repetições. Fórmula: `n! ÷ (a! · b! · ...)`.',
+              'Exemplo resolvido: anagramas de AMADA. São 5 letras, com o A repetido 3 vezes: 5! ÷ 3! = 120 ÷ 6 = **20**. A divisão existe porque trocar dois A entre si não produz palavra nova.',
+              'Exemplo resolvido: anagramas de ANALISTA. São 8 letras, com 3 A: 8! ÷ 3! = 40.320 ÷ 6 = **6.720**.',
+              '**Permutação circular** (mesa redonda, roda): não há primeiro nem último, então uma das posições serve de referência: `(n − 1)!`. Cinco pessoas ao redor de uma mesa redonda: 4! = **24** maneiras.',
+            ],
+          },
+          {
+            t: 'Arranjo ou combinação: a pergunta que decide tudo',
+            p: [
+              'Nos dois casos você escolhe **k** elementos dentre **n**. A única diferença é se a ordem da escolha cria casos diferentes. Aprenda o teste, não a decoreba:',
+            ],
+            lista: [
+              '**O teste**: escolha dois dos selecionados e troque-os de lugar. Se o resultado é uma situação **diferente**, a ordem importa → **arranjo**. Se é a **mesma** situação, a ordem não importa → **combinação**.',
+              'Aplicando: escolher presidente e vice entre 10 pessoas. Ana presidente e Bruno vice **não** é a mesma coisa que Bruno presidente e Ana vice → ordem importa → **arranjo**.',
+              'Aplicando: escolher 2 pessoas para uma comissão sem cargos. A dupla Ana-Bruno é a mesma dupla Bruno-Ana → ordem não importa → **combinação**.',
+              'Fórmulas: `A(n,k) = n! ÷ (n − k)!` e `C(n,k) = n! ÷ [k! · (n − k)!]`. Repare que a combinação é o arranjo dividido por `k!` — justamente para não contar a mesma equipe várias vezes.',
+              'Exemplo casado, com os mesmos números: entre **8 servidores**, escolher 3. Se forem presidente, vice e secretário (cargos distintos): 8 × 7 × 6 = **336**. Se for uma comissão comum, sem cargos: 336 ÷ 3! = 336 ÷ 6 = **56**. Mesmos n e k, respostas diferentes — só a ordem mudou.',
+              '**Palavras que sinalizam ordem importa** (arranjo ou permutação): cargos distintos, presidente e vice, 1º e 2º lugares, senha, número formado por algarismos, fila, pódio, ordem de apresentação.',
+              '**Palavras que sinalizam ordem não importa** (combinação): comissão, grupo, equipe, dupla, "escolher k dentre n", apertos de mão, jogos entre times, diagonais, saladas de frutas.',
+            ],
+          },
+          {
+            t: 'Restrições: resolva primeiro a exigência',
+            p: [
+              'Quando o enunciado impõe uma condição, atenda a condição **antes** de contar o resto. Três padrões cobrem quase todas as questões:',
+            ],
+            lista: [
+              '**Elementos que ficam juntos** — cole-os com fita, tratando o par como uma peça só, e depois permute dentro da peça. Cinco pessoas em fila com duas delas sempre juntas: permute 4 peças (4! = 24) e permute o par internamente (2! = 2), total 24 × 2 = **48**.',
+              '**Elementos que nunca ficam juntos** — conte tudo e subtraia o caso "juntos". No exemplo acima: 120 − 48 = **72**.',
+              '**Grupos separados** — escolha em cada grupo e multiplique. Comissão de 4 pessoas com exatamente 2 homens e 2 mulheres, a partir de 5 homens e 4 mulheres: C(5,2) × C(4,2) = 10 × 6 = **60**.',
+              '**"Pelo menos um"** — quase sempre é mais rápido pelo complementar: total menos os casos em que **nenhum** aparece.',
+              '**Posição fixa** — se alguém já ocupa um lugar determinado, retire essa pessoa e esse lugar da conta e permute o resto. Cinco aprovados para cinco cidades, com o primeiro colocado já designado: sobram 4! = **24** possibilidades.',
+            ],
+          },
+        ],
+        destaques: [
+          { tipo: 'perigo', rot: 'Usar arranjo onde é combinação', txt: 'É o erro que mais derruba candidato nesta matéria. Ao contar uma comissão sem cargos com a fórmula do arranjo, você conta a <b>mesma</b> comissão várias vezes: a dupla Ana-Bruno é contada uma vez como Ana-Bruno e outra como Bruno-Ana. Resultado inflado por k!. Antes de qualquer fórmula, faça o teste da troca: se trocar dois escolhidos de posição não cria um caso novo, é <b>combinação</b>.' },
+          { tipo: 'dica', rot: 'Combinação sem calcular fatorial', txt: 'Nunca calcule 8! para achar C(8,3). Escreva k fatores decrescentes em cima e k! embaixo: C(8,3) = (8 × 7 × 6) ÷ (3 × 2 × 1) = 336 ÷ 6 = <b>56</b>. E use a simetria C(n,k) = C(n, n−k): para C(10,8), calcule C(10,2) = 45, que dá muito menos trabalho.' },
+        ],
+        resumo: [
+          'PFC: etapas ligadas por E multiplicam; alternativas ligadas por OU somam.',
+          'Permutação usa todos os elementos: n!; com letras repetidas, divida pelos fatoriais das repetições.',
+          'Arranjo quando a ordem importa; combinação quando não importa. C(n,k) = A(n,k) ÷ k!.',
+          'Restrição primeiro: cole os que ficam juntos, subtraia para os que não podem ficar, multiplique escolhas de grupos distintos.',
+        ],
+      },
+      questoes: [
+        {
+          id: 'rlm9-01', dif: 2, tipo: 'multipla',
+          enunciado: 'Uma pessoa possui 4 camisas, 2 calças, 1 saia e 3 pares de sapatos. Considerando que ela vestirá uma camisa, uma peça inferior (calça ou saia) e um par de sapatos, o número de maneiras distintas de se vestir é',
+          alts: ['36.', '24.', '10.', '72.', '12.'],
+          correta: 0,
+          expl: 'Passo 1 — identifique as etapas ligadas por **E**: uma camisa E uma peça inferior E um sapato. Etapas com E se **multiplicam**. Passo 2 — a peça inferior é calça **OU** saia, e o OU **soma**: 2 + 1 = **3** opções. Passo 3 — multiplique as três etapas: 4 × 3 × 3 = **36**. O erro que produz 24 é multiplicar apenas 4 × 2 × 3, esquecendo a saia; o erro que produz 72 é somar camisas e calças na conta errada ou contar duas peças inferiores ao mesmo tempo.',
+          tags: ['princípio fundamental da contagem'],
+        },
+        {
+          id: 'rlm9-02', dif: 3, tipo: 'multipla',
+          enunciado: 'O número de anagramas que podem ser formados com as letras da palavra ANALISTA é',
+          alts: ['6.720.', '40.320.', '20.160.', '1.680.', '13.440.'],
+          correta: 0,
+          expl: 'Passo 1 — conte as letras: A-N-A-L-I-S-T-A são **8** letras, e a letra A aparece **3** vezes. Passo 2 — como há repetição, use a permutação com repetição: 8! ÷ 3!. Passo 3 — calcule: 8! = 40.320 e 3! = 6, logo 40.320 ÷ 6 = **6.720**. A alternativa 40.320 é a de quem esqueceu a repetição e usou 8! puro; 20.160 é 8! ÷ 2!, ou seja, quem tratou o A como se aparecesse só duas vezes. Trocar dois A de lugar não gera palavra nova, e é exatamente isso que a divisão por 3! corrige.',
+          tags: ['permutação com repetição', 'anagramas'],
+        },
+        {
+          id: 'rlm9-03', dif: 3, tipo: 'multipla',
+          enunciado: 'Em um setor com 8 servidores, será formada uma comissão de 3 membros, sem distinção de funções entre eles. O número de comissões distintas que podem ser formadas é',
+          alts: ['56.', '336.', '24.', '112.', '168.'],
+          correta: 0,
+          expl: 'Passo 1 — faça o teste da troca: trocar dois membros de posição dentro da comissão não cria comissão nova, porque não há cargos. Logo, a ordem **não** importa: é **combinação**. Passo 2 — monte C(8,3) pelo atalho, com 3 fatores decrescentes sobre 3!: (8 × 7 × 6) ÷ (3 × 2 × 1). Passo 3 — calcule: 336 ÷ 6 = **56**. A alternativa 336 é a armadilha do arranjo, que serviria se os três tivessem cargos diferentes — ela conta a mesma comissão 6 vezes (as 3! ordens dos mesmos três nomes).',
+          tags: ['combinação'],
+        },
+        {
+          id: 'rlm9-04', dif: 3, tipo: 'multipla',
+          enunciado: 'Em um setor com 8 servidores, serão escolhidos 3 deles para os cargos de presidente, vice-presidente e secretário de uma comissão. O número de maneiras distintas de fazer essa escolha é',
+          alts: ['336.', '56.', '512.', '168.', '24.'],
+          correta: 0,
+          expl: 'Passo 1 — teste da troca: se Ana é presidente e Bruno vice, inverter os dois muda a situação. A ordem **importa**: é **arranjo**. Passo 2 — pelo PFC, com um tracinho por cargo: presidente tem 8 opções, vice tem 7 (o presidente já saiu), secretário tem 6. Passo 3 — multiplique: 8 × 7 × 6 = **336**. Compare com a questão anterior: mesmos 8 servidores, mesmos 3 escolhidos, mas aqui há cargos, e o resultado é 3! = 6 vezes maior (56 × 6 = 336). A alternativa 512 = 8³ seria o caso absurdo em que a mesma pessoa pudesse acumular os três cargos.',
+          tags: ['arranjo'],
+        },
+        {
+          id: 'rlm9-05', dif: 2, tipo: 'ce',
+          base: 'De um grupo de 10 servidores, o número de duplas distintas que podem ser formadas, sem distinção de funções entre os dois integrantes, é igual a 45.',
+          enunciado: 'Julgue o item.',
+          correta: 0,
+          expl: 'Certo. Passo 1 — dupla sem funções distintas: a ordem não importa, é **combinação** C(10,2). Passo 2 — aplique o atalho: (10 × 9) ÷ (2 × 1) = 90 ÷ 2 = **45**. Conferência pelo raciocínio direto: cada um dos 10 pode formar par com os outros 9, o que dá 90 pares, mas cada par foi contado duas vezes (Ana-Bruno e Bruno-Ana), então 90 ÷ 2 = 45. É a mesma conta do clássico "quantos apertos de mão" e do "quantos jogos em turno único".',
+          tags: ['combinação'],
+        },
+        {
+          id: 'rlm9-06', dif: 3, tipo: 'multipla',
+          enunciado: 'Uma comissão de 4 pessoas será formada a partir de um grupo de 5 homens e 4 mulheres, devendo ser composta por exatamente 2 homens e 2 mulheres. O número de comissões distintas que podem ser formadas é',
+          alts: ['60.', '126.', '40.', '20.', '24.'],
+          correta: 0,
+          expl: 'Passo 1 — a restrição divide o problema em dois grupos independentes, e nenhum deles tem cargos: duas combinações. Passo 2 — escolha os homens: C(5,2) = (5 × 4) ÷ 2 = **10**. Passo 3 — escolha as mulheres: C(4,2) = (4 × 3) ÷ 2 = **6**. Passo 4 — as duas escolhas acontecem juntas (2 homens **E** 2 mulheres), então multiplique: 10 × 6 = **60**. A alternativa 126 é C(9,4), o total de comissões **sem** a restrição de sexo — resposta de quem ignorou a exigência. Somar 10 + 6 = 16 também não existe aqui, porque não são alternativas, são etapas.',
+          tags: ['combinação', 'contagem com restrição'],
+        },
+        {
+          id: 'rlm9-07', dif: 3, tipo: 'ce',
+          base: 'O número de maneiras de escolher, entre 6 servidores, um presidente e um secretário para uma comissão é igual a 15.',
+          enunciado: 'Julgue o item.',
+          correta: 1,
+          expl: 'Errado. O item usou combinação onde o caso é de **arranjo**. Passo 1 — teste da troca: Ana presidente com Bruno secretário é diferente de Bruno presidente com Ana secretário; os cargos são distintos, então a ordem **importa**. Passo 2 — pelo PFC: 6 opções para presidente e 5 para secretário, ou seja, 6 × 5 = **30** maneiras. Passo 3 — o número 15 é C(6,2) = (6 × 5) ÷ 2, que responderia à pergunta apenas se a comissão fosse de dois membros **sem** cargos. Guarde a relação: 30 ÷ 2! = 15, isto é, o arranjo é o dobro da combinação quando k = 2.',
+          tags: ['arranjo', 'combinação'],
+        },
+        {
+          id: 'rlm9-08', dif: 3, tipo: 'ce',
+          base: 'Utilizando os algarismos de 0 a 9, sem repetir algarismos em uma mesma senha, é possível formar 5.040 senhas distintas de quatro algarismos.',
+          enunciado: 'Julgue o item.',
+          correta: 0,
+          expl: 'Certo. Passo 1 — em senha a ordem importa (1234 e 4321 são senhas diferentes) e não há repetição, então é **arranjo** de 10 elementos tomados 4 a 4. Passo 2 — desenhe quatro tracinhos: 10 opções para o primeiro, 9 para o segundo, 8 para o terceiro e 7 para o quarto. Passo 3 — multiplique por partes: 10 × 9 = 90; 90 × 8 = 720; 720 × 7 = **5.040**. Confere com a fórmula: A(10,4) = 10! ÷ 6! = 10 × 9 × 8 × 7. Se a repetição fosse permitida, o total seria 10⁴ = 10.000 — número maior, como tem de ser.',
+          tags: ['arranjo', 'princípio fundamental da contagem'],
+        },
+      ],
+    },
+
+
+    {
+      id: 'rlm-10',
+      titulo: 'Probabilidade',
+      subtitulo: 'Medir a incerteza com fração',
+      topicos: ['Espaço amostral e evento', 'Probabilidade clássica e frequencial', 'Evento complementar', 'União de eventos', 'Eventos independentes', 'Probabilidade condicional'],
+      aula: {
+        intro: 'Probabilidade é uma fração: o que interessa em cima, o total embaixo. A dificuldade nunca está na divisão — está em decidir o que entra em cada andar. Vamos treinar exatamente isso.',
+        blocos: [
+          {
+            t: 'Espaço amostral, evento e a fração fundamental',
+            p: [
+              '**Espaço amostral (Ω)** é o conjunto de **todos** os resultados possíveis. **Evento** é o subconjunto que interessa. A probabilidade clássica, válida quando todos os resultados são igualmente prováveis, é:',
+            ],
+            lista: [
+              '`P = casos favoráveis ÷ casos possíveis`.',
+              'Exemplo: no lançamento de um dado comum, Ω = {1, 2, 3, 4, 5, 6}, seis resultados. O evento "sair número maior ou igual a 5" é {5, 6}, dois casos. Então P = 2/6 = **1/3**.',
+              'Toda probabilidade fica entre **0 e 1** (ou entre 0% e 100%): P(Ω) = 1 e a probabilidade do evento impossível é 0. Se sua resposta passou de 1, a conta está errada — esse é o melhor teste de sanidade da matéria.',
+              'Fração, decimal e percentual são a mesma resposta: 1/4 = 0,25 = 25%. Marque a forma que a alternativa pedir.',
+              '**Conceito frequencial**: quando os resultados não são equiprováveis, a probabilidade vem dos dados observados. Se 8 entre 23 frutas da caixa são laranjas, P(laranja) = **8/23**. Em tabelas, o denominador é sempre o **total** da tabela, salvo se a questão restringir o grupo.',
+            ],
+          },
+          {
+            t: 'Evento complementar: o atalho do "pelo menos"',
+            p: [
+              'O complementar de A é "não ocorrer A", e juntos eles cobrem tudo: `P(não A) = 1 − P(A)`.',
+              'Sempre que o enunciado disser **"pelo menos um"**, desconfie e vá pelo complementar: é quase sempre mais curto contar o caso em que **nenhum** ocorre.',
+            ],
+            lista: [
+              'Exemplo: em três lançamentos de uma moeda honesta, qual a probabilidade de sair **pelo menos uma** cara? Pelo complementar, "nenhuma cara" é coroa três vezes: (1/2)³ = 1/8. Logo P = 1 − 1/8 = **7/8**.',
+              'Exemplo com equipamento: um dispositivo funciona sem falhas com probabilidade 85%, e há um segundo idêntico de reserva. O sistema falha só se **os dois** falharem: 0,15 × 0,15 = 0,0225. Portanto P(sistema funcionar) = 1 − 0,0225 = **0,9775**, ou 97,75%.',
+              'Contar direto o "pelo menos um" desse exemplo daria três casos somados; pelo complementar, foi uma multiplicação e uma subtração.',
+            ],
+          },
+          {
+            t: 'E multiplica, OU soma: agora com probabilidades',
+            p: [
+              'A mesma lógica da contagem vale aqui. **E** (interseção, eventos que ocorrem juntos) multiplica; **OU** (união) soma.',
+            ],
+            lista: [
+              '**Eventos independentes** — um não interfere no outro: `P(A e B) = P(A) × P(B)`. Dois dados, dois seis: 1/6 × 1/6 = **1/36**.',
+              'Casos típicos de independência: lançamentos sucessivos de moeda ou dado, sorteios **com** reposição, equipamentos separados.',
+              '**Sem reposição, os eventos ficam dependentes** e os dois andares da fração mudam a cada retirada. Urna com 5 bolas brancas e 3 pretas; duas retiradas sem reposição; probabilidade de as duas serem brancas: 5/8 × 4/7 = 20/56 = **5/14**.',
+              'O mesmo resultado sai pela contagem: C(5,2) ÷ C(8,2) = 10 ÷ 28 = **5/14**. Quando a questão fala em "retirar 2 de uma vez", esse caminho pela combinação é o mais direto.',
+              'Repare que 5/8 × 5/8 = 25/64 seria a resposta **com** reposição. Ler se há reposição ou não é metade da questão.',
+            ],
+          },
+          {
+            t: 'União: não conte duas vezes quem está nos dois grupos',
+            p: [
+              'A fórmula da união é: `P(A ou B) = P(A) + P(B) − P(A e B)`. A subtração existe porque quem pertence aos dois eventos foi somado duas vezes.',
+            ],
+            lista: [
+              'Se os eventos são **mutuamente exclusivos** (não podem ocorrer juntos), a interseção é zero e a fórmula vira soma simples. Ex.: no dado, P(sair 5 ou 6) = 1/6 + 1/6 = **2/6 = 1/3**.',
+              'Exemplo resolvido com interseção: uma sala tem 20 homens e 30 mulheres (total 50); metade dos homens e metade das mulheres têm nível superior. Qual a probabilidade de a pessoa sorteada ser **mulher ou** ter nível superior?',
+              'Passo 1 — P(mulher) = 30/50. Passo 2 — nível superior: 10 homens + 15 mulheres = 25, logo P = 25/50. Passo 3 — interseção (mulher **e** nível superior) = 15/50. Passo 4 — união: 30/50 + 25/50 − 15/50 = 40/50 = **4/5**.',
+              'Para três eventos, o sinal alterna: soma as individuais, subtrai as interseções duas a duas, soma a interseção tripla.',
+            ],
+          },
+          {
+            t: 'Probabilidade condicional: o total encolhe',
+            p: [
+              'Quando a questão informa que algo **já** ocorreu ("sabendo que", "dado que", "entre os que"), o espaço amostral deixa de ser o total e passa a ser apenas aquele grupo. A fórmula é `P(A | B) = P(A e B) ÷ P(B)`, mas o raciocínio prático é mais simples: **troque o denominador**.',
+            ],
+            lista: [
+              'Exemplo: entre 100 servidores, 60 são mulheres e, dentre estas, 30 têm pós-graduação. Sorteado um servidor, **sabendo-se que é mulher**, a probabilidade de ter pós-graduação é 30/60 = **1/2** — e não 30/100.',
+              '`P(A | B)` e `P(B | A)` são coisas diferentes, e a banca adora trocar uma pela outra. No exemplo, a probabilidade de ser mulher **dado que** tem pós-graduação teria como denominador o total de pós-graduados, não o total de mulheres.',
+              'Em tabelas de dupla entrada, a receita é mecânica: a condição escolhe a **linha ou coluna**, e o total dessa linha ou coluna vira o denominador.',
+              'Sorteio sem reposição é probabilidade condicional disfarçada: na segunda retirada, tanto o numerador quanto o denominador já mudaram.',
+              'Teste de independência: A e B são independentes quando P(A | B) = P(A), isto é, saber de B não altera a chance de A.',
+            ],
+          },
+        ],
+        destaques: [
+          { tipo: 'perigo', rot: 'Somar probabilidades que se sobrepõem', txt: 'Com P(A) = 0,5 e P(B) = 0,4, escrever P(A ou B) = 0,9 só está certo se os eventos forem <b>mutuamente exclusivos</b>. Havendo interseção de 0,2, o correto é 0,5 + 0,4 − 0,2 = <b>0,7</b>. E lembre-se do limite: se a soma passar de 1, com certeza há sobreposição esquecida. Some quando o evento é OU e não há interseção; multiplique quando o evento é E.' },
+          { tipo: 'dica', rot: 'Trabalhe com 100 pessoas', txt: 'Diante de percentuais soltos, invente um total de 100 (ou 1.000) e monte a tabela de números inteiros. "60% são mulheres e metade delas tem pós" vira 60 mulheres e 30 com pós. A partir daí, toda probabilidade é uma divisão de inteiros — inclusive as condicionais, que passam a ser leitura direta da tabela.' },
+        ],
+        resumo: [
+          'P = favoráveis ÷ possíveis, sempre entre 0 e 1.',
+          '"Pelo menos um" pede o complementar: 1 − P(nenhum).',
+          'Independentes: multiplique. União: some e subtraia a interseção.',
+          'Condicional: a condição vira o novo denominador. Sem reposição é condicional.',
+        ],
+      },
+      questoes: [
+        {
+          id: 'rlm10-01', dif: 2, tipo: 'multipla',
+          enunciado: 'Em uma caixa há 10 maçãs, 8 laranjas e 5 peras. Retirando-se uma fruta ao acaso, a probabilidade de ser uma laranja é',
+          alts: ['8/23.', '8/15.', '1/3.', '8/18.', '5/23.'],
+          correta: 0,
+          expl: 'Passo 1 — casos favoráveis: as 8 laranjas. Passo 2 — casos possíveis: **todas** as frutas, 10 + 8 + 5 = **23**. Passo 3 — monte a fração: **8/23**, que já é irredutível (23 é primo). As alternativas erradas nascem de denominadores mal montados: 8/15 esquece as maçãs, 8/18 esquece as peras. O denominador da probabilidade é sempre o espaço amostral **completo**.',
+          tags: ['probabilidade simples'],
+        },
+        {
+          id: 'rlm10-02', dif: 2, tipo: 'multipla',
+          enunciado: 'Um dado honesto de seis faces é lançado duas vezes. A probabilidade de sair a face 6 nos dois lançamentos é',
+          alts: ['1/36.', '1/18.', '1/12.', '1/6.', '1/3.'],
+          correta: 0,
+          expl: 'Passo 1 — o resultado do primeiro lançamento não altera o segundo: eventos **independentes**. Passo 2 — evento ligado por **E** (6 no primeiro **e** 6 no segundo) se multiplica: 1/6 × 1/6 = **1/36**. Conferência pelo espaço amostral: dois dados produzem 6 × 6 = 36 pares possíveis, e apenas um deles é (6, 6). A alternativa 1/18 é de quem somou 1/6 + 1/6 e simplificou errado; somar seria responder "sair 6 no primeiro **ou** no segundo", pergunta diferente.',
+          tags: ['eventos independentes'],
+        },
+        {
+          id: 'rlm10-03', dif: 3, tipo: 'multipla',
+          enunciado: 'Uma sala contém 20 homens e 30 mulheres, todos servidores. Metade dos homens e metade das mulheres possuem nível superior. Escolhendo-se aleatoriamente uma pessoa dessa sala, a probabilidade de ela ser mulher ou possuir nível superior é',
+          alts: ['4/5.', '2/3.', '3/4.', '5/6.', '11/10.'],
+          correta: 0,
+          expl: 'Passo 1 — total do espaço amostral: 20 + 30 = **50** pessoas. Passo 2 — P(mulher) = 30/50. Passo 3 — quem tem nível superior: metade dos homens (10) mais metade das mulheres (15), ou seja, 25; então P(nível superior) = 25/50. Passo 4 — a interseção (ser mulher **e** ter nível superior) são as 15 mulheres com nível superior: 15/50. Passo 5 — aplique a união: 30/50 + 25/50 − 15/50 = 40/50 = **4/5**. Conferência por contagem direta: 30 mulheres + 10 homens com nível superior = 40 pessoas favoráveis em 50. Somar sem descontar a interseção daria 55/50 = 11/10, ou seja, mais que 1 — impossível, e é a alternativa-armadilha.',
+          tags: ['união de eventos'],
+        },
+        {
+          id: 'rlm10-04', dif: 3, tipo: 'multipla',
+          enunciado: 'Um dispositivo de controle funciona sem falhas com probabilidade de 85%. Um segundo dispositivo, idêntico e independente do primeiro, é acoplado ao sistema e entra em operação assim que o primeiro apresenta pane. A probabilidade de o sistema funcionar sem falhas é de',
+          alts: ['97,75%.', '98,325%.', '92,50%.', '72,25%.', '85,00%.'],
+          correta: 0,
+          expl: 'Passo 1 — o sistema só falha se **os dois** dispositivos falharem, então vale a pena ir pelo complementar. Passo 2 — probabilidade de falha de cada um: 1 − 0,85 = **0,15**. Passo 3 — como são independentes, a falha conjunta multiplica: 0,15 × 0,15 = **0,0225**. Passo 4 — o sistema funciona no complementar disso: 1 − 0,0225 = **0,9775 = 97,75%**. Conferência de bom senso: com reserva, o sistema tem de ficar **melhor** que os 85% de um só, e 97,75% respeita esse limite; a alternativa 72,25% é 0,85², que responderia à pergunta "os dois funcionarem ao mesmo tempo".',
+          tags: ['evento complementar', 'eventos independentes'],
+        },
+        {
+          id: 'rlm10-05', dif: 3, tipo: 'ce',
+          base: 'Em um grupo de 100 servidores, 60 são mulheres e, dentre estas, 30 possuem pós-graduação. Escolhendo-se ao acaso um servidor desse grupo e sabendo-se que a pessoa escolhida é mulher, a probabilidade de ela possuir pós-graduação é igual a 1/2.',
+          enunciado: 'Julgue o item.',
+          correta: 0,
+          expl: 'Certo. Passo 1 — a expressão "sabendo-se que é mulher" instala uma **condição**: o espaço amostral encolhe do grupo inteiro para o grupo das mulheres. Passo 2 — o novo denominador é 60, não 100. Passo 3 — favoráveis: as 30 mulheres com pós-graduação. Passo 4 — calcule: 30/60 = **1/2**. Compare com a probabilidade **não** condicional, que seria 30/100 = 3/10: é outro número, porque o total é outro. Sempre que ler "dado que", "sabendo que" ou "entre as mulheres", troque o denominador.',
+          tags: ['probabilidade condicional'],
+        },
+        {
+          id: 'rlm10-06', dif: 2, tipo: 'ce',
+          base: 'Sejam A e B dois eventos tais que P(A) = 0,5, P(B) = 0,4 e a probabilidade de ocorrência simultânea de A e B seja 0,2. Nessa situação, a probabilidade de ocorrer A ou B é igual a 0,9.',
+          enunciado: 'Julgue o item.',
+          correta: 1,
+          expl: 'Errado. Passo 1 — a fórmula da união desconta a interseção: P(A ou B) = P(A) + P(B) − P(A e B). Passo 2 — substitua: 0,5 + 0,4 − 0,2. Passo 3 — calcule: 0,9 − 0,2 = **0,7**. O valor 0,9 é a soma pura, que só valeria se os eventos fossem **mutuamente exclusivos**, isto é, com interseção nula — e o próprio enunciado diz que a interseção vale 0,2. Conferência com 100 pessoas: 50 em A, 40 em B, 20 nos dois; a união abriga 30 + 20 + 20 = 70 pessoas, ou seja, 0,7.',
+          tags: ['união de eventos'],
+        },
+        {
+          id: 'rlm10-07', dif: 3, tipo: 'multipla',
+          enunciado: 'Uma urna contém 5 bolas brancas e 3 bolas pretas. Duas bolas são retiradas ao acaso, sucessivamente e sem reposição. A probabilidade de que ambas sejam brancas é',
+          alts: ['5/14.', '25/64.', '5/8.', '1/4.', '15/56.'],
+          correta: 0,
+          expl: 'Passo 1 — total de bolas: 5 + 3 = **8**. Passo 2 — primeira retirada: P(branca) = 5/8. Passo 3 — **sem reposição**, a urna muda: sobraram 7 bolas, das quais 4 brancas, então P(branca na segunda) = 4/7. Passo 4 — multiplique, porque é uma **E** a outra: 5/8 × 4/7 = 20/56 = **5/14**. Conferência pela contagem: C(5,2) ÷ C(8,2) = 10 ÷ 28 = 5/14. A alternativa 25/64 é a resposta **com** reposição (5/8 × 5/8), e 15/56 seria 5/8 × 3/7, uma branca e uma preta.',
+          tags: ['probabilidade sem reposição', 'probabilidade com contagem'],
+        },
+        {
+          id: 'rlm10-08', dif: 3, tipo: 'ce',
+          base: 'Uma moeda honesta é lançada três vezes. A probabilidade de se obter pelo menos uma cara nesses três lançamentos é igual a 7/8.',
+          enunciado: 'Julgue o item.',
+          correta: 0,
+          expl: 'Certo. Passo 1 — "pelo menos uma" pede o **complementar**: o contrário de "pelo menos uma cara" é "nenhuma cara", ou seja, coroa nas três vezes. Passo 2 — os lançamentos são independentes: (1/2) × (1/2) × (1/2) = **1/8**. Passo 3 — subtraia de 1: 1 − 1/8 = **7/8**. Conferência pelo espaço amostral: são 2³ = 8 resultados possíveis, e apenas um (coroa-coroa-coroa) não tem nenhuma cara; logo 7 dos 8 servem. Contar diretamente exigiria somar os casos de uma, duas e três caras (3/8 + 3/8 + 1/8 = 7/8) — mesmo resultado, mais trabalho.',
+          tags: ['evento complementar'],
+        },
+      ],
+    },
+
+
+    {
+      id: 'rlm-11',
+      titulo: 'Estatística descritiva',
+      subtitulo: 'Média, mediana, moda e dispersão',
+      topicos: ['Média simples e ponderada', 'Mediana', 'Moda', 'Amplitude', 'Variância e desvio padrão', 'Distribuição de frequências', 'Tabelas e gráficos'],
+      aula: {
+        intro: 'Esta é a parte mais generosa do bloco quantitativo: as contas são de somar e dividir, e as pegadinhas são sempre as mesmas três. Aprenda a ordenar antes de calcular a mediana e você já sai na frente de metade dos candidatos.',
+        blocos: [
+          {
+            t: 'As três medidas de tendência central',
+            p: [
+              'Cada uma resume o conjunto de um jeito diferente, e a banca gosta de pedir as três no mesmo item. Vamos usar sempre o mesmo conjunto de exemplo: **2, 4, 4, 6, 9**.',
+            ],
+            lista: [
+              '**Média aritmética** = soma dos valores ÷ quantidade de valores. Aqui: (2 + 4 + 4 + 6 + 9) ÷ 5 = 25 ÷ 5 = **5**.',
+              '**Mediana** = o valor **central**, com os dados **em ordem**. São 5 valores, então o central é o 3º: **4**. Com quantidade **par** de valores, a mediana é a média dos dois centrais.',
+              '**Moda** = o valor que mais aparece. Aqui, o 4 aparece duas vezes: moda = **4**. Um conjunto pode ser **amodal** (nenhuma repetição), **bimodal** (dois valores empatados na liderança) ou multimodal.',
+              'Note que média (5), mediana (4) e moda (4) podem ser números diferentes. Em distribuições simétricas as três coincidem; quanto mais assimétrico o conjunto, mais elas se afastam.',
+              'A **média** é a única sensível a valores extremos. Troque o 9 por 90: a média salta para (2 + 4 + 4 + 6 + 90) ÷ 5 = 21,2, enquanto a mediana continua **4**. Por isso a mediana é preferida quando há valores discrepantes, como em dados de renda.',
+            ],
+          },
+          {
+            t: 'Média ponderada: quando os valores têm pesos',
+            p: [
+              'Se cada valor vale mais ou menos que os outros, multiplique cada um pelo seu peso, some, e divida pela **soma dos pesos** — nunca pela quantidade de valores.',
+              '`média ponderada = (x1·p1 + x2·p2 + ... ) ÷ (p1 + p2 + ...)`',
+            ],
+            lista: [
+              'Exemplo resolvido: prova objetiva com nota 7 e peso 3; prova discursiva com nota 9 e peso 2. Passo 1 — produtos: 7 × 3 = 21 e 9 × 2 = 18. Passo 2 — some: 21 + 18 = 39. Passo 3 — divida pela soma dos pesos (3 + 2 = 5): 39 ÷ 5 = **7,8**. A média simples daria 8,0 — a nota mais alta tinha o peso menor, então a ponderada tinha de ficar **abaixo** de 8.',
+              'Em tabelas de frequência, **a frequência é o peso**. Exemplo: 10 servidores sem filhos, 8 com 1 filho, 5 com 2 filhos e 2 com 3 filhos. Passo 1 — total de servidores: 10 + 8 + 5 + 2 = **25**. Passo 2 — total de filhos: (0 × 10) + (1 × 8) + (2 × 5) + (3 × 2) = 0 + 8 + 10 + 6 = **24**. Passo 3 — média: 24 ÷ 25 = **0,96 filho por servidor**.',
+              'Em dados agrupados em classes, o valor representativo de cada classe é o **ponto médio** dela: para a classe 4 |– 8, o ponto médio é (4 + 8) ÷ 2 = 6.',
+            ],
+          },
+          {
+            t: 'Dispersão: amplitude, variância e desvio padrão',
+            p: [
+              'Duas turmas podem ter a mesma média e realidades opostas. As medidas de dispersão dizem se os dados estão grudados na média ou espalhados.',
+              '**Amplitude** = maior valor − menor valor. Simples e frágil, porque olha apenas os extremos.',
+              '**Variância e desvio padrão** têm um roteiro fixo de seis passos. Faça sempre na mesma ordem, com o conjunto 2, 4, 4, 4, 5, 5, 7, 9:',
+            ],
+            lista: [
+              'Passo 1 — calcule a **média**: a soma é 40 e há 8 valores, logo a média é **5**.',
+              'Passo 2 — ache os **desvios** (valor − média): −3, −1, −1, −1, 0, 0, +2, +4.',
+              'Passo 3 — **eleve cada desvio ao quadrado** (é isso que elimina os sinais negativos): 9, 1, 1, 1, 0, 0, 4, 16.',
+              'Passo 4 — **some os quadrados**: 9 + 1 + 1 + 1 + 0 + 0 + 4 + 16 = **32**.',
+              'Passo 5 — **divida**: por n se os dados são a população inteira (32 ÷ 8 = **4**, a variância); por n − 1 se são uma amostra (32 ÷ 7 ≈ 4,57).',
+              'Passo 6 — **tire a raiz quadrada** da variância para obter o **desvio padrão**: √4 = **2**.',
+              'Leitura das unidades: se os dados estão em reais, a variância sai em reais **ao quadrado** (número sem sentido prático) e o desvio padrão volta para reais. Por isso o desvio padrão é a medida que se interpreta.',
+              'Desvio padrão e variância são **sempre maiores ou iguais a zero**, e valem exatamente zero apenas quando todos os valores são iguais.',
+            ],
+          },
+          {
+            t: 'Propriedades que a banca adora',
+            lista: [
+              '**Somar** uma constante a todos os valores: a média aumenta na mesma constante, mas amplitude, variância e desvio padrão **não mudam** — o conjunto todo se desloca, sem se espalhar mais.',
+              '**Multiplicar** todos os valores por uma constante k: a média e o desvio padrão ficam multiplicados por k, e a variância por **k²**.',
+              'A soma de todos os desvios em relação à média é sempre **zero** — no exemplo anterior: −3 −1 −1 −1 + 0 + 0 + 2 + 4 = 0. É justamente por isso que se elevam os desvios ao quadrado.',
+              'A média está sempre entre o menor e o maior valor. Se sua média caiu fora desse intervalo, a conta está errada — use isso como conferência rápida.',
+              'Média de médias só funciona se os grupos tiverem o mesmo tamanho. Grupos de tamanhos diferentes exigem média **ponderada** pelo número de elementos.',
+            ],
+          },
+          {
+            t: 'Distribuição de frequências, tabelas e gráficos',
+            lista: [
+              '**Frequência absoluta**: a contagem pura de cada categoria ou classe. **Frequência relativa**: a absoluta dividida pelo total, geralmente em percentual. **Frequência acumulada**: soma da classe com todas as anteriores.',
+              'Duas conferências obrigatórias: a soma das frequências absolutas é o **total de observações**, e a soma das relativas é **1 (ou 100%)**. A última frequência acumulada tem de fechar em 100%.',
+              '**Classes**: a notação `4 |– 8` lê-se "de 4 a 8", incluindo o 4 e **excluindo** o 8 — quem ganha exatamente 8 entra na classe seguinte. A **amplitude da classe** é 8 − 4 = 4, e o **ponto médio** é 6.',
+              'Para achar a mediana em tabela, use a frequência **acumulada**: localize onde ela alcança metade do total. Com 25 servidores, a mediana é o 13º valor em ordem.',
+              '**Histograma** é para variáveis quantitativas contínuas agrupadas em classes: as barras se encostam, porque as classes são contíguas. **Diagrama de barras ou colunas** é para variáveis qualitativas ou discretas: as barras ficam separadas.',
+              '**Gráfico de setores** (pizza) mostra a composição do total: 100% correspondem a 360°, então cada 1% equivale a **3,6°**. Serve para participação, não para evolução no tempo — para isso usa-se gráfico de linha.',
+            ],
+          },
+        ],
+        destaques: [
+          { tipo: 'perigo', rot: 'Mediana sem ordenar os dados', txt: 'O erro mais barato e mais frequente desta matéria: pegar o valor que está fisicamente no meio da lista dada pelo enunciado. <b>Ordene primeiro</b>, sempre. E, com quantidade <b>par</b> de valores, a mediana é a média dos dois centrais: em 12, 15, 18, 20, 22, 25, a mediana é (18 + 20) ÷ 2 = <b>19</b>, e não 18 nem 20.' },
+          { tipo: 'dica', rot: 'Desvio padrão sem calcular nada', txt: 'Em item de julgamento, use o raciocínio antes da conta: se todos os valores são iguais, o desvio padrão é <b>zero</b>; se o conjunto todo foi somado a uma constante, a dispersão <b>não muda</b>; e desvio padrão negativo não existe em nenhuma hipótese. Três decisões corretas sem fazer uma única conta.' },
+        ],
+        resumo: [
+          'Média é soma ÷ quantidade; mediana exige ordenar (e com n par, média dos dois centrais); moda é o mais frequente.',
+          'Média ponderada divide pela soma dos pesos; em tabela de frequências, a frequência é o peso.',
+          'Variância: média dos desvios ao quadrado; desvio padrão é a raiz dela, na unidade original.',
+          'Somar constante desloca a média e não altera a dispersão; a soma das frequências relativas é 100%.',
+        ],
+      },
+      questoes: [
+        {
+          id: 'rlm11-01', dif: 2, tipo: 'multipla',
+          enunciado: 'Considere o conjunto de valores 2, 4, 4, 6 e 9. A média aritmética e a mediana desse conjunto são, respectivamente,',
+          alts: ['5 e 4.', '5 e 5.', '4 e 5.', '4,5 e 4.', '5 e 6.'],
+          correta: 0,
+          expl: 'Passo 1 — média: some os valores, 2 + 4 + 4 + 6 + 9 = **25**, e divida pela quantidade, 25 ÷ 5 = **5**. Passo 2 — mediana: os dados já estão em ordem crescente e são **5** valores, quantidade ímpar, então o central é o 3º termo: **4**. Conferência de sanidade: a média (5) está entre o menor (2) e o maior (9) valor, como tem de estar. Repare que média e mediana são diferentes porque o valor 9 puxa a média para cima, sem afetar a posição central.',
+          tags: ['média', 'mediana'],
+        },
+        {
+          id: 'rlm11-02', dif: 3, tipo: 'multipla',
+          enunciado: 'Em um levantamento, foram registrados os seguintes tempos de tramitação, em dias: 20, 12, 25, 18, 22 e 15. A mediana desses tempos é',
+          alts: ['19 dias.', '18 dias.', '20 dias.', '18,5 dias.', '19,5 dias.'],
+          correta: 0,
+          expl: 'Passo 1 — **ordene** os dados, sem o que nada funciona: 12, 15, 18, 20, 22, 25. Passo 2 — conte: são **6** valores, quantidade **par**, logo não existe um único termo central. Passo 3 — a mediana é a média dos dois centrais, o 3º e o 4º: (18 + 20) ÷ 2 = 38 ÷ 2 = **19 dias**. As alternativas 18 e 20 são as de quem parou em um dos dois centrais; a média aritmética do conjunto, por curiosidade, é 112 ÷ 6 ≈ 18,67 — número diferente da mediana, e a questão pediu a mediana.',
+          tags: ['mediana'],
+        },
+        {
+          id: 'rlm11-03', dif: 3, tipo: 'multipla',
+          enunciado: 'Em um certame, a prova objetiva tem peso 3 e a prova discursiva tem peso 2. Um candidato obteve nota 7,0 na objetiva e 9,0 na discursiva. Sua média ponderada foi de',
+          alts: ['7,8.', '8,0.', '7,5.', '8,2.', '16,0.'],
+          correta: 0,
+          expl: 'Passo 1 — multiplique cada nota pelo seu peso: 7,0 × 3 = **21** e 9,0 × 2 = **18**. Passo 2 — some os produtos: 21 + 18 = **39**. Passo 3 — divida pela **soma dos pesos**, que é 3 + 2 = 5: 39 ÷ 5 = **7,8**. A alternativa 8,0 é a média **simples** ((7 + 9) ÷ 2), erro de quem ignorou os pesos. Conferência de raciocínio: a nota mais alta (9,0) carrega o peso menor, então o resultado tinha de ficar abaixo de 8,0 e acima de 7,0 — e 7,8 respeita isso.',
+          tags: ['média ponderada'],
+        },
+        {
+          id: 'rlm11-04', dif: 3, tipo: 'multipla',
+          enunciado: 'Os oito valores 2, 4, 4, 4, 5, 5, 7 e 9 constituem a população de um estudo. O desvio padrão dessa população é',
+          alts: ['2.', '4.', '32.', '8.', '2,14.'],
+          correta: 0,
+          expl: 'Passo 1 — média: a soma é 2 + 4 + 4 + 4 + 5 + 5 + 7 + 9 = **40**, e 40 ÷ 8 = **5**. Passo 2 — desvios em relação à média: −3, −1, −1, −1, 0, 0, +2, +4 (some-os para conferir: dá zero, como sempre). Passo 3 — quadrados dos desvios: 9, 1, 1, 1, 0, 0, 4, 16. Passo 4 — soma dos quadrados: **32**. Passo 5 — variância populacional: 32 ÷ 8 = **4**. Passo 6 — desvio padrão: √4 = **2**. As alternativas-armadilha são exatamente as etapas intermediárias: 32 é a soma dos quadrados e 4 é a variância. Quem para na variância erra a questão.',
+          tags: ['variância', 'desvio padrão'],
+        },
+        {
+          id: 'rlm11-05', dif: 2, tipo: 'ce',
+          base: 'No conjunto de valores 3, 5, 5, 7 e 12, a moda é igual a 5 e a amplitude é igual a 9.',
+          enunciado: 'Julgue o item.',
+          correta: 0,
+          expl: 'Certo, nas duas afirmações. Passo 1 — moda é o valor mais frequente: o 5 aparece duas vezes e todos os demais apenas uma, logo a moda é **5**. Passo 2 — amplitude é maior valor menos menor valor: 12 − 3 = **9**. Cuidado para não confundir com a média, que aqui é (3 + 5 + 5 + 7 + 12) ÷ 5 = 32 ÷ 5 = 6,4, nem com a mediana, que é o 3º valor em ordem, ou seja, 5. Neste conjunto, moda e mediana coincidem por acaso — isso não é regra.',
+          tags: ['moda', 'amplitude'],
+        },
+        {
+          id: 'rlm11-06', dif: 3, tipo: 'ce',
+          base: 'Se cada um dos valores de um conjunto de dados numéricos for acrescido de 5 unidades, a média aritmética do conjunto aumentará 5 unidades e o desvio padrão permanecerá inalterado.',
+          enunciado: 'Julgue o item.',
+          correta: 0,
+          expl: 'Certo. Passo 1 — a média acompanha o deslocamento: somar 5 a cada um dos n valores acrescenta 5n à soma total, e 5n ÷ n = 5, logo a média sobe exatamente **5**. Passo 2 — a dispersão não muda, porque cada desvio (valor − média) fica igual: o valor subiu 5 e a média subiu 5, então a diferença entre eles é a mesma. Conferência concreta com 2, 4 e 6: média 4 e desvios −2, 0, +2. Somando 5 a todos: 7, 9 e 11, média 9 e desvios −2, 0, +2. Mesma dispersão. Já **multiplicar** todos os valores por uma constante seria outra história: aí média e desvio padrão ficariam multiplicados por ela, e a variância pelo quadrado.',
+          tags: ['propriedades da média', 'desvio padrão'],
+        },
+        {
+          id: 'rlm11-07', dif: 2, tipo: 'ce',
+          base: 'Em uma distribuição de frequências, a soma das frequências relativas de todas as classes é igual ao número total de observações.',
+          enunciado: 'Julgue o item.',
+          correta: 1,
+          expl: 'Errado — o item trocou os dois tipos de frequência. A soma das frequências **absolutas** é que resulta no total de observações. A soma das frequências **relativas** é sempre **1**, ou **100%**, porque cada relativa é uma parte do total dividida pelo próprio total. Conferência com números: em 36 pessoas distribuídas em 12, 18 e 6, as absolutas somam 12 + 18 + 6 = 36 (o total), e as relativas são 33,33%, 50,00% e 16,67%, que somam 100%. Consequência prática: a última frequência acumulada relativa tem de fechar exatamente em 100%.',
+          tags: ['distribuição de frequências'],
+        },
+        {
+          id: 'rlm11-08', dif: 3, tipo: 'multipla',
+          enunciado: 'Em um setor, o número de filhos dos servidores está distribuído assim: 10 servidores não têm filhos; 8 têm 1 filho; 5 têm 2 filhos; e 2 têm 3 filhos. O número médio de filhos por servidor nesse setor é',
+          alts: ['0,96.', '1,20.', '1,50.', '6,25.', '2,00.'],
+          correta: 0,
+          expl: 'Em tabela de frequências, a frequência funciona como **peso**. Passo 1 — total de servidores: 10 + 8 + 5 + 2 = **25**. Passo 2 — total de filhos: (0 × 10) + (1 × 8) + (2 × 5) + (3 × 2) = 0 + 8 + 10 + 6 = **24**. Passo 3 — média = 24 ÷ 25 = **0,96 filho por servidor**. A alternativa 1,50 é a média simples dos valores 0, 1, 2 e 3, que ignora quantos servidores há em cada grupo — e a maioria não tem filho nenhum, o que puxa a média para baixo de 1. A alternativa 6,25 vem de dividir 25 por 4, conta sem sentido aqui. Conferência: a média tem de ficar entre 0 e 3, e mais perto de 0, porque o grupo mais numeroso é o dos servidores sem filhos.',
+          tags: ['média ponderada', 'distribuição de frequências'],
+        },
+      ],
+    },
+
   ],
 };
