@@ -16,6 +16,7 @@ function estadoInicial() {
       nome: 'Sara',
       criadoEm: hojeISO(),
       metaMinutos: 60,
+      dataProva: null,     // 'YYYY-MM-DD' — alimenta previsão, ritmo e urgência
       calibrado: false,
       fortalezas: ['portugues', 'ingles'],
       cargo: 'Analista Legislativo — Câmara dos Deputados',
@@ -26,6 +27,7 @@ function estadoInicial() {
     dias: {},            // 'YYYY-MM-DD' -> { min, q, acertos, xp, niveis }
     materias: {},        // id -> { niveis: {}, xp, q, acertos }
     srs: {},             // questaoId -> ficha de repetição espaçada
+    leis: {},            // dispositivoId -> desempenho no modo lei seca
     badges: {},          // id -> data de conquista
     historico: [],       // últimos eventos (máx. 250)
     simulados: [],       // últimos 40

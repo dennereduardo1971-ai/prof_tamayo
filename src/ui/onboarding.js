@@ -2,7 +2,7 @@
    Primeiro contato — apresentação e calibragem
    ============================================================ */
 
-import { el, esc, embaralhar } from '../util.js';
+import { el, esc, embaralhar, hojeISO, fmtDataBR } from '../util.js';
 import { tela, corpo, chip, barra } from './components.js';
 import { ir, limparPilha } from '../router.js';
 import { som, destravarAudio } from '../audio.js';
@@ -22,6 +22,7 @@ export function telaOnboarding() {
   const dados = {
     nome: S.perfil.nome || 'Sara',
     meta: S.perfil.metaMinutos || 60,
+    dataProva: S.perfil.dataProva || '',
     fortalezas: new Set(S.perfil.fortalezas || ['portugues', 'ingles']),
   };
 
@@ -81,6 +82,12 @@ export function telaOnboarding() {
       oninput: (e) => { dados.meta = Number(e.target.value); valor.textContent = `${dados.meta} min`; },
     });
 
+    const campoData = el('input', {
+      class: 'onb__campo', type: 'date', value: dados.dataProva,
+      min: hojeISO(),
+      oninput: (e) => { dados.dataProva = e.target.value; },
+    });
+
     return el('div', { class: 'onb__passo' },
       el('h1', { class: 'onb__tit', txt: 'Como devo te chamar?' }),
       el('p', { class: 'onb__txt', txt: 'Vou usar seu nome quando precisar te chamar de volta ao foco.' }),
@@ -94,6 +101,9 @@ export function telaOnboarding() {
         ),
         slider
       ),
+      el('h1', { class: 'onb__tit mt24', txt: 'Quando é a prova?' }),
+      el('p', { class: 'onb__txt', html: 'Se o edital ainda não saiu, chute a data mais provável. Eu preciso de um prazo para calcular seu ritmo — <b>e para te avisar quando ele não estiver dando</b>. Dá para mudar depois em Ajustes.' }),
+      el('div', { class: 'card' }, campoData),
       el('button', { class: 'btn btn--primario btn--bloco mt24', onclick: avancar }, 'Continuar'),
       el('button', { class: 'btn btn--fantasma btn--bloco btn--pequeno mt8', onclick: voltarPasso }, 'Voltar')
     );
@@ -142,6 +152,7 @@ export function telaOnboarding() {
     const salvarPerfil = () => {
       S.perfil.nome = (dados.nome || '').trim() || 'Sara';
       S.perfil.metaMinutos = dados.meta;
+      S.perfil.dataProva = dados.dataProva || null;
       S.perfil.fortalezas = Array.from(dados.fortalezas);
       S.perfil.calibrado = true;
       S.visto.boasVindas = true;
@@ -164,6 +175,9 @@ export function telaOnboarding() {
       regra('🩹', 'O que você erra volta', 'Toda questão errada entra na <b>revisão espaçada</b> e reaparece até você provar domínio.'),
       regra('⚖️', 'Peso importa', 'Matéria de peso 5 rende mais XP e aparece mais nos simulados. A trilha já vem ordenada por isso.'),
       regra('🔥', 'Streak e meta', `Estudar todos os dias mantém o streak. Sua meta é de <b>${dados.meta} minutos</b> por dia.`),
+      dados.dataProva
+        ? regra('📅', 'O relógio da prova', `Prova marcada para <b>${fmtDataBR(dados.dataProva)}</b>. Vou comparar seu ritmo real com esse prazo e te dizer, sem rodeios, se a conta está fechando.`)
+        : null,
 
       el('button', {
         class: 'btn btn--primario btn--bloco mt24',

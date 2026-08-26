@@ -11,13 +11,21 @@
     "android:add": "npm run www && npx cap add android",
     "android:sync": "npm run www && npx cap sync android",
     "android:apk": "npm run android:sync && cd android && ./gradlew assembleDebug",
-    "android:abrir": "npm run android:sync && npx cap open android"
+    "android:abrir": "npm run android:sync && npx cap open android",
+    "smoke": "node scripts/smoke.mjs"
   },
-  "keywords": ["concurso", "camara-dos-deputados", "analista-legislativo", "pwa", "estudos"],
+  "keywords": [
+    "concurso",
+    "camara-dos-deputados",
+    "analista-legislativo",
+    "pwa",
+    "estudos"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@capacitor/android": "^6.2.0",
     "@capacitor/cli": "^6.2.0",
-    "@capacitor/core": "^6.2.0"
+    "@capacitor/core": "^6.2.0",
+    "playwright": "^1.56.0"
   }
 }

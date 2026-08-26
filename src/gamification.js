@@ -2,8 +2,11 @@
    Gamificação: XP, patentes, conquistas, streak e metas.
    ============================================================ */
 
-import { S, salvar, diaDe, registrar, marcarEstudoHoje, minutosHoje } from './state.js';
-import { hojeISO, pct, clamp, diffDias } from './util.js';
+import { S, salvar, diaDe, registrar, marcarEstudoHoje, minutosHoje, progMateria } from './state.js';
+import { hojeISO, diaISOMais, pct, clamp, diffDias } from './util.js';
+import { MATERIAS } from './data/index.js';
+import { resumoSrs } from './srs.js';
+import { LEIS } from './data/leis.js';
 
 /* ---------------- Patentes ---------------- */
 /* Nomes do ciclo sexagenário japonês (jikkan), do menor ao maior grau. */
@@ -54,6 +57,7 @@ export const XP = {
   revisaoErro: 3,
   metaDiaria: 50,
   primeiraDoDia: 15,
+  leiSeca: 26,
 };
 
 /** Multiplicador pelo peso da matéria: matéria pesada rende mais. */
@@ -122,13 +126,270 @@ export function estatisticas() {
   const srs = Object.values(S.srs);
   const dominadas = srs.filter((f) => f.caixa >= 5).length;
 
+  const errosFechados = srs.filter((f) => (f.erros || 0) > 0 && f.caixa >= 5).length;
+
+  const leis = Object.values(S.leis || {});
+  const leisTentadas = leis.filter((l) => (l.tentativas || 0) > 0).length;
+  const leisGabaritadas = leis.filter((l) => l.melhor === 100).length;
+
   return {
     q, acertos, taxa: pct(acertos, q),
     diasEstudados, minutosTotais, metasBatidas,
-    srsTotal: srs.length, srsDominadas: dominadas,
+    srsTotal: srs.length, srsDominadas: dominadas, errosFechados,
+    leisTentadas, leisGabaritadas,
     simulados: S.simulados.length,
     melhorSimulado: S.simulados.reduce((a, s) => Math.max(a, s.pct || 0), 0),
   };
+}
+
+
+/* ============================================================
+   O edital: quanto falta, e dá tempo?
+   ============================================================ */
+
+/** Contagem regressiva para a prova. Devolve null se a data não foi definida. */
+export function contagemProva() {
+  const iso = S.perfil.dataProva;
+  if (!iso) return null;
+  const dias = diffDias(hojeISO(), iso);
+  return { iso, dias, passou: dias < 0, semanas: Math.floor(Math.abs(dias) / 7) };
+}
+
+/**
+ * Conclusão do edital **ponderada por peso**: terminar uma matéria peso 5
+ * vale mais que terminar uma peso 2, porque na prova vale mesmo.
+ */
+export function progressoEdital() {
+  let pesoTotal = 0, pesoFeito = 0, niveisTotal = 0, niveisFeitos = 0;
+  const porMateria = [];
+  for (const m of MATERIAS) {
+    const p = progMateria(m.id);
+    const feitos = m.niveis.filter((n) => p.niveis[n.id]?.concluido).length;
+    pesoTotal += m.peso;
+    pesoFeito += m.peso * (m.niveis.length ? feitos / m.niveis.length : 0);
+    niveisTotal += m.niveis.length;
+    niveisFeitos += feitos;
+    porMateria.push({ mat: m, feitos, total: m.niveis.length, pct: pct(feitos, m.niveis.length) });
+  }
+  return {
+    pct: pesoTotal ? Math.round((pesoFeito / pesoTotal) * 100) : 0,
+    pctSimples: pct(niveisFeitos, niveisTotal),
+    niveisFeitos, niveisTotal, restantes: niveisTotal - niveisFeitos,
+    porMateria,
+  };
+}
+
+/** Níveis concluídos nos últimos n dias, pela data real de conclusão. */
+export function niveisConcluidosDesde(dias = 28) {
+  const corte = diaISOMais(hojeISO(), -dias);
+  let n = 0;
+  for (const m of Object.values(S.materias)) {
+    for (const nv of Object.values(m.niveis || {})) {
+      if (nv.concluido && nv.ultimaISO && nv.ultimaISO >= corte) n += 1;
+    }
+  }
+  return n;
+}
+
+/**
+ * Ritmo real contra o prazo real. Nada de intenção declarada: usa os
+ * níveis efetivamente concluídos nos últimos 28 dias.
+ *
+ * veredito: 'sem-data' | 'sem-dados' | 'em-dia' | 'apertado' | 'atrasado'
+ *           | 'concluido' | 'passou'
+ */
+export function ritmoEdital() {
+  const ed = progressoEdital();
+  const JANELA = 28;
+  const feitosJanela = niveisConcluidosDesde(JANELA);
+  const idade = clamp(diffDias(S.perfil.criadoEm || hojeISO(), hojeISO()) + 1, 1, JANELA);
+  const ritmoDia = feitosJanela / idade;
+
+  const cp = contagemProva();
+  const diasProva = cp ? cp.dias : null;
+  const necessarioDia = diasProva && diasProva > 0 && ed.restantes > 0 ? ed.restantes / diasProva : null;
+
+  let previsaoDias = null, previsaoISO = null;
+  if (ed.restantes === 0) { previsaoDias = 0; previsaoISO = hojeISO(); }
+  else if (ritmoDia > 0) {
+    previsaoDias = Math.ceil(ed.restantes / ritmoDia);
+    previsaoISO = diaISOMais(hojeISO(), Math.min(previsaoDias, 3650));
+  }
+
+  let veredito;
+  if (ed.restantes === 0) veredito = 'concluido';
+  else if (cp && cp.passou) veredito = 'passou';
+  else if (!cp) veredito = 'sem-data';
+  else if (!ritmoDia) veredito = 'sem-dados';
+  else if (previsaoDias <= diasProva * 0.8) veredito = 'em-dia';
+  else if (previsaoDias <= diasProva) veredito = 'apertado';
+  else veredito = 'atrasado';
+
+  return { ...ed, ritmoDia, feitosJanela, diasProva, necessarioDia, previsaoDias, previsaoISO, veredito };
+}
+
+/* ============================================================
+   Prioridade: uma fórmula só para "o que eu estudo agora?"
+   ============================================================ */
+
+/**
+ * peso da matéria × o quanto ela ainda dói × o quanto falta dela,
+ * com um empurrão do que está vencido na revisão.
+ * Devolve a lista ordenada, com `indice` de 0 a 100 para a barra.
+ */
+export function prioridadeMaterias() {
+  const hoje = hojeISO();
+  const vencidasPorMat = {};
+  for (const f of Object.values(S.srs)) {
+    if (f.mat && f.proxima <= hoje) vencidasPorMat[f.mat] = (vencidasPorMat[f.mat] || 0) + 1;
+  }
+
+  const linhas = MATERIAS.map((m) => {
+    const p = progMateria(m.id);
+    const q = p.q || 0;
+    // Sem histórico, a matéria é uma incógnita: nem forte, nem fraca.
+    const taxa = q >= 5 ? (p.acertos || 0) / q : 0.5;
+    const feitos = m.niveis.filter((n) => p.niveis[n.id]?.concluido).length;
+    const restante = m.niveis.length ? 1 - feitos / m.niveis.length : 0;
+    const vencidas = vencidasPorMat[m.id] || 0;
+
+    const bruto = (m.peso / 5) * (
+      0.45 * (1 - taxa) +
+      0.35 * restante +
+      0.20 * Math.min(1, vencidas / 20)
+    );
+    return {
+      mat: m, taxa: pct(p.acertos || 0, q), q, feitos, total: m.niveis.length,
+      vencidas, restante, bruto,
+    };
+  });
+
+  const teto = Math.max(...linhas.map((l) => l.bruto), 0.0001);
+  for (const l of linhas) l.indice = Math.round((l.bruto / teto) * 100);
+  linhas.sort((a, b) => b.bruto - a.bruto);
+  return linhas;
+}
+
+/**
+ * Confronta as fortalezas declaradas no onboarding com o desempenho real.
+ * Só opina depois de `minQ` questões — antes disso não há amostra.
+ */
+export function auditarFortalezas(minQ = 20) {
+  const declaradas = new Set(S.perfil.fortalezas || []);
+  const out = [];
+  for (const m of MATERIAS) {
+    if (!declaradas.has(m.id) && !m.fortaleza) continue;
+    const p = progMateria(m.id);
+    if ((p.q || 0) < minQ) continue;
+    const taxa = pct(p.acertos || 0, p.q || 0);
+    out.push({ mat: m, taxa, q: p.q, confirmada: taxa >= 85 });
+  }
+  return out.sort((a, b) => a.taxa - b.taxa);
+}
+
+
+/* ============================================================
+   Plano do dia — a sessão montada, não só "o próximo nível"
+   ============================================================ */
+
+/** Primeiro nível ainda não concluído e já liberado de uma matéria. */
+export function proximoNivelLiberado(mat) {
+  const p = progMateria(mat.id);
+  const i = mat.niveis.findIndex((n) => !p.niveis[n.id]?.concluido);
+  if (i === -1) return null;
+  if (i > 0 && !p.niveis[mat.niveis[i - 1].id]?.concluido) return null;   // travado
+  return { niv: mat.niveis[i], idx: i };
+}
+
+/* Custo médio, em minutos, de cada tipo de bloco. Chute honesto,
+   calibrado para caber na meta sem prometer o impossível. */
+const MIN_POR_QUESTAO = 1.2;
+const MIN_AULA = 11;
+
+/**
+ * Monta a sessão do dia dentro da meta de minutos: primeiro o que
+ * está vencido, depois conteúdo novo pela prioridade, depois reforço.
+ * Devolve descritores — quem navega é a tela.
+ */
+export function planoDoDia() {
+  const meta = S.perfil.metaMinutos || 60;
+  const feito = minutosHoje();
+  const restante = Math.max(10, meta - feito);
+  const blocos = [];
+  let orcamento = restante;
+
+  /* 1. Revisão vencida — prioridade absoluta, até 35% do tempo */
+  const srs = resumoSrs();
+  if (srs.pendentes > 0) {
+    const n = clamp(Math.round((orcamento * 0.35) / MIN_POR_QUESTAO), 5, Math.min(srs.pendentes, 40));
+    const min = Math.round(n * MIN_POR_QUESTAO);
+    blocos.push({
+      id: 'revisao', ico: '🩹', titulo: 'Fechar o que está aberto',
+      sub: `${n} de ${srs.pendentes} questões vencidas`,
+      min, rota: 'revisao', params: {},
+      urgente: srs.atrasadas > 0,
+    });
+    orcamento -= min;
+  }
+
+  /* 2. Conteúdo novo, na matéria de maior prioridade que tenha nível liberado */
+  const prio = prioridadeMaterias();
+  for (const linha of prio) {
+    const prox = proximoNivelLiberado(linha.mat);
+    if (!prox) continue;
+    const min = MIN_AULA + Math.round(prox.niv.questoes.length * MIN_POR_QUESTAO);
+    blocos.push({
+      id: 'nivel', ico: linha.mat.ico, titulo: `${linha.mat.curto} · nível ${prox.idx + 1}`,
+      sub: prox.niv.titulo,
+      min, rota: 'aula', params: { matId: linha.mat.id, nivId: prox.niv.id },
+      peso: linha.mat.peso,
+    });
+    orcamento -= min;
+    break;
+  }
+
+  /* 3. Reforço onde mais dói, se ainda sobrar tempo */
+  if (orcamento >= 12) {
+    const fraca = prio.find((l) => l.q >= 10 && l.taxa < 70);
+    if (fraca) {
+      const n = clamp(Math.round(orcamento / MIN_POR_QUESTAO), 6, 15);
+      blocos.push({
+        id: 'reforco', ico: '🎯', titulo: `Reforço em ${fraca.mat.curto}`,
+        sub: `${fraca.taxa}% de acerto — ${n} questões sorteadas pelos seus erros`,
+        min: Math.round(n * MIN_POR_QUESTAO),
+        rota: 'materia', params: { matId: fraca.mat.id },
+        pratica: { matId: fraca.mat.id, n },
+      });
+      orcamento -= Math.round(n * MIN_POR_QUESTAO);
+    }
+  }
+
+  /* 4. Lei seca: quando a prova aperta, a letra da lei vale mais que conteúdo novo */
+  const cp = contagemProva();
+  if (cp && !cp.passou && cp.dias <= 60 && orcamento >= 8) {
+    const alvo = prio.find((l) => LEIS.some((lei) => lei.mat === l.mat.id));
+    const lei = alvo ? LEIS.find((x) => x.mat === alvo.mat.id) : LEIS[0];
+    if (lei) {
+      blocos.push({
+        id: 'leiseca', ico: lei.ico, titulo: `Lei seca · ${lei.curto}`,
+        sub: 'a menos de dois meses da prova, letra de lei rende mais que matéria nova',
+        min: 8, rota: 'leiseca', params: { leiId: lei.id },
+      });
+    }
+  }
+
+  /* 5. Simulado: uma vez por semana, no mínimo */
+  const ultimo = S.simulados?.[0]?.data || null;
+  const semSimulado = !ultimo || diffDias(ultimo, hojeISO()) >= 7;
+  if (semSimulado && blocos.length < 4) {
+    blocos.push({
+      id: 'simulado', ico: '⏱️', titulo: 'Simulado da semana',
+      sub: ultimo ? `último há ${diffDias(ultimo, hojeISO())} dias` : 'você ainda não fez nenhum',
+      min: 40, rota: 'simulado', params: {},
+    });
+  }
+
+  return { blocos, meta, feito, restante, total: blocos.reduce((a, b) => a + b.min, 0) };
 }
 
 /* ---------------- Conquistas ---------------- */
@@ -190,6 +451,13 @@ export const CONQUISTAS = [
   { id: 'srs_limpo', ico: '🩹', nome: 'Feridas fechadas', desc: 'Zerar as revisões do dia', ver: (e, x) => x.srsZerado },
   { id: 'srs_50', ico: '🧬', nome: 'Memória de aço', desc: '50 questões dominadas na revisão', ver: (e) => e.srsDominadas >= 50 },
   { id: 'srs_200', ico: '🧠', nome: 'Memória de titânio', desc: '200 questões dominadas', ver: (e) => e.srsDominadas >= 200 },
+
+  { id: 'lei_seca_1', ico: '📜', nome: 'Letra da lei', desc: 'Gabaritar um dispositivo no modo lei seca',
+    ver: (e) => e.leisGabaritadas >= 1 },
+  { id: 'lei_seca_10', ico: '🏛️', nome: 'Texto na memória', desc: 'Gabaritar 10 dispositivos',
+    ver: (e) => e.leisGabaritadas >= 10 },
+  { id: 'caderno_fechado', ico: '📓', nome: 'Caderno fechado', desc: 'Levar 25 questões erradas até o domínio',
+    ver: (e) => e.errosFechados >= 25 },
 
   { id: 'precisao', ico: '🎐', nome: 'Precisão cirúrgica', desc: '85% de acerto com 300+ questões',
     ver: (e) => e.q >= 300 && e.taxa >= 85 },

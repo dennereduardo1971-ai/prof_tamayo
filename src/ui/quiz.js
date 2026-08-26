@@ -11,7 +11,7 @@ import { flash, flutuar, toast, comemorar, confirmar, modal } from '../fx.js';
 import { petalas } from '../petals.js';
 import { S, diaDe, salvar, progMateria, registrar } from '../state.js';
 import { ganharXp, XP, registrarCombo, comboAtual, conferirConquistas, conferirMeta, pulsoEstudo, extras } from '../gamification.js';
-import { responder as srsResponder, ficha } from '../srs.js';
+import { responder as srsResponder, ajustarQualidade, ficha, acertoLento } from '../srs.js';
 import { FALAS } from '../data/dialogues.js';
 import { cenaTamayo, fala, retratoTamayo } from '../tamayo.js';
 import { materia as buscaMateria } from '../data/index.js';
@@ -235,9 +235,9 @@ function registrarResposta(ses, escolha) {
   d.q += 1;
   if (acertou) d.acertos += 1;
 
-  // Repetição espaçada
+  // Repetição espaçada — o tempo e a alternativa marcada entram na ficha.
   const mat = buscaMateria(item.mat);
-  srsResponder(q.id, acertou, { mat: item.mat, niv: item.niv, dif: q.dif || 2 });
+  srsResponder(q.id, acertou, { mat: item.mat, niv: item.niv, dif: q.dif || 2, seg, escolha });
 
   // Combo e XP
   const combo = registrarCombo(acertou);
@@ -252,7 +252,7 @@ function registrarResposta(ses, escolha) {
   pulsoEstudo();
   salvar();
 
-  ses.ultimo = { acertou, combo, xp: r, q, mat, escolha };
+  ses.ultimo = { acertou, combo, xp: r, q, mat, escolha, seg, lento: acertou && acertoLento(seg, q.dif || 2) };
   return ses.ultimo;
 }
 
@@ -286,7 +286,8 @@ function mostrarFeedback(ses, acertou) {
   // Fala da Tamayo
   let grupo, expr;
   if (acertou) {
-    if (combo >= 5 && combo % 5 === 0) { grupo = 'acertoCombo'; expr = 'orgulhosa'; }
+    if (ses.ultimo.lento) { grupo = 'acertoLento'; expr = 'pensativa'; }
+    else if (combo >= 5 && combo % 5 === 0) { grupo = 'acertoCombo'; expr = 'orgulhosa'; }
     else if ((q.dif || 2) >= 3) { grupo = 'acertoDificil'; expr = 'orgulhosa'; }
     else { grupo = 'acerto'; expr = 'sorriso'; }
   } else {
@@ -306,6 +307,7 @@ function mostrarFeedback(ses, acertou) {
       el('span', { class: 'feedback__ico', txt: acertou ? '🌸' : '🩸' }),
       el('span', { class: 'feedback__vered', txt: acertou ? 'Correto' : 'Incorreto' }),
       el('span', { class: 'crescer' }),
+      ses.ultimo.lento ? chip(`⏱ ${fmtTempo(ses.ultimo.seg)}`, 'chip--errado') : null,
       acertou ? chip(`+${ses.ultimo.xp.ganho} XP`, 'chip--ouro') : null
     ),
     (() => {
@@ -316,7 +318,8 @@ function mostrarFeedback(ses, acertou) {
     el('div', { class: 'feedback__expl' },
       el('span', { class: 'rot', txt: 'Por quê' }),
       el('span', { html: md(q.expl) })
-    )
+    ),
+    blocoAlternativas(q, ses.escolha)
   );
   palco.appendChild(caixa);
   caixa.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -347,6 +350,38 @@ function mostrarFeedback(ses, acertou) {
   }
 }
 
+/**
+ * Justificativa alternativa por alternativa.
+ * Só aparece quando a questão traz `expls` — na prova a banca ganha
+ * justamente com as erradas, então saber por que elas caem vale tanto
+ * quanto saber por que a certa sobe.
+ */
+export function blocoAlternativas(q, escolha = null) {
+  if (!q.expls?.length) return null;
+
+  const rotulos = q.tipo === 'ce' ? ['Certo', 'Errado'] : q.alts;
+  const linhas = rotulos.map((rot, i) => {
+    const certa = i === q.correta;
+    const marcada = escolha !== null && escolha !== undefined && i === escolha;
+    return el('div', { class: `alt-just ${certa ? 'alt-just--certa' : 'alt-just--errada'}` },
+      el('span', { class: 'alt-just__ico', txt: certa ? '✅' : '❌' }),
+      el('span', { class: 'crescer' },
+        el('span', { class: 'alt-just__rot' },
+          el('b', { txt: q.tipo === 'ce' ? rot : `${LETRAS[i]}) ` }),
+          q.tipo === 'ce' ? null : el('span', { html: md(rot) }),
+          marcada ? chip('você marcou', 'chip--errado') : null
+        ),
+        el('span', { class: 'alt-just__txt', html: md(q.expls[i] || '—') })
+      )
+    );
+  });
+
+  return el('div', { class: 'alt-justs' },
+    el('span', { class: 'rot', txt: 'Alternativa por alternativa' }),
+    ...linhas
+  );
+}
+
 function botaoAuto(titulo, sub, classe, aoClicar) {
   return el('button', { class: `autoaval__btn autoaval__btn--${classe}`, onclick: aoClicar },
     el('b', { txt: titulo }), el('span', { txt: sub })
@@ -355,8 +390,8 @@ function botaoAuto(titulo, sub, classe, aoClicar) {
 
 function reavaliar(ses, qualidade) {
   const item = ses.itens[ses.idx];
-  const acertou = ses.ultimo?.acertou;
-  srsResponder(item.q.id, acertou, { mat: item.mat, niv: item.niv, dif: item.q.dif || 2 }, qualidade);
+  // A resposta já foi contada em registrarResposta; aqui só afinamos o intervalo.
+  ajustarQualidade(item.q.id, qualidade, !!ses.ultimo?.acertou);
 }
 
 function contarErrosSeguidos(ses) {

@@ -2,15 +2,15 @@
    Progresso — estatísticas e conquistas
    ============================================================ */
 
-import { el, esc, pct, fmtNum, fmtDuracaoLonga, ultimosDias, hojeISO, diaSemana, DIAS_SEM, clamp } from '../util.js';
-import { tela, topbar, corpo, navInferior, barra, chip, secao, vazio, pctMateria, estrelasMateria } from './components.js';
+import { el, pct, fmtNum, fmtDuracaoLonga, fmtDataBR, ultimosDias, hojeISO } from '../util.js';
+import { tela, topbar, corpo, navInferior, barra, chip, secao, vazio } from './components.js';
 import { ir } from '../router.js';
 import { som } from '../audio.js';
 import { modal } from '../fx.js';
-import { S, minutosHoje, progMateria } from '../state.js';
-import { estatisticas, progressoPatente, PATENTES, CONQUISTAS, patenteDe } from '../gamification.js';
-import { resumoSrs } from '../srs.js';
-import { MATERIAS, porPeso, TOTAL_NIVEIS, TOTAL_QUESTOES, materia as buscaMateria } from '../data/index.js';
+import { S } from '../state.js';
+import { estatisticas, progressoPatente, PATENTES, CONQUISTAS, contagemProva, ritmoEdital, prioridadeMaterias } from '../gamification.js';
+import { resumoSrs, resumoErros } from '../srs.js';
+import { TOTAL_QUESTOES } from '../data/index.js';
 
 export function telaProgresso({ aba = 'numeros' } = {}) {
   const stats = estatisticas();
@@ -20,7 +20,7 @@ export function telaProgresso({ aba = 'numeros' } = {}) {
   const conteudoEl = el('div', { class: 'pad' });
 
   const abas = el('div', { class: 'abas' },
-    ...[['numeros', '📊 Números'], ['materias', '🎴 Matérias'], ['conquistas', '🏆 Conquistas'], ['patentes', '⚜️ Patentes']]
+    ...[['numeros', '📊 Números'], ['prova', '📅 A prova'], ['materias', '🎴 Prioridade'], ['conquistas', '🏆 Conquistas'], ['patentes', '⚜️ Patentes']]
       .map(([id, rot]) => el('button', {
         class: `chip ${id === aba ? 'chip--sakura' : ''}`,
         onclick: () => { if (id !== aba) ir('progresso', { aba: id }, { substituir: true }); },
@@ -28,6 +28,7 @@ export function telaProgresso({ aba = 'numeros' } = {}) {
   );
 
   if (aba === 'numeros') montarNumeros(conteudoEl, stats, pat, srs);
+  else if (aba === 'prova') montarProva(conteudoEl);
   else if (aba === 'materias') montarMaterias(conteudoEl);
   else if (aba === 'conquistas') montarConquistas(conteudoEl);
   else montarPatentes(conteudoEl, pat);
@@ -125,40 +126,110 @@ function box(valor, rot) {
   );
 }
 
-/* ---------------- Matérias ---------------- */
-function montarMaterias(raiz) {
-  raiz.appendChild(el('p', { style: { fontSize: '12.5px', color: 'var(--txt-3)', lineHeight: '1.6', margin: '4px 0 6px' },
-    html: 'Ordenado por <b>aproveitamento</b>. O que está no fim da lista é onde você precisa voltar.' }));
+/* ---------------- A prova: quanto falta e dá tempo ---------------- */
+function montarProva(raiz) {
+  const cp = contagemProva();
+  const r = ritmoEdital();
 
-  const linhas = MATERIAS.map((m) => {
-    const p = progMateria(m.id);
-    const taxa = pct(p.acertos || 0, p.q || 0);
-    const prog = pctMateria(m);
-    const est = estrelasMateria(m);
-    return { m, taxa, prog, est, q: p.q || 0 };
-  }).sort((a, b) => (a.q === 0) - (b.q === 0) || a.taxa - b.taxa);
-
-  for (const l of linhas) {
-    const card = el('button', {
-      class: 'materia',
-      style: { marginBottom: '10px' },
-      onclick: () => ir('materia', { matId: l.m.id }),
-    },
-      el('span', { class: 'materia__ico', txt: l.m.ico }),
-      el('span', { class: 'materia__corpo' },
-        el('span', { class: 'materia__nome', txt: l.m.curto }),
-        el('span', { class: 'materia__meta' },
-          chip(`${l.prog.feitos}/${l.prog.total} níveis`),
-          chip(l.q ? `${l.taxa}% de acerto` : 'sem questões ainda', l.q && l.taxa >= 70 ? 'chip--certo' : (l.q ? 'chip--errado' : '')),
-          chip(`${l.est.ganhas}/${l.est.max} ✿`, 'chip--sakura')
-        ),
-        el('span', { class: 'materia__barra' }, barra(l.prog.pct, { fina: true }))
-      ),
-      el('span', { class: 'materia__pct', txt: `${l.prog.pct}%` })
-    );
-    card.style.setProperty('--cor-mat', l.m.cor);
-    raiz.appendChild(card);
+  if (!cp) {
+    raiz.appendChild(el('div', { class: 'calib__aviso' },
+      'Você ainda não definiu a <b>data da prova</b>. Sem prazo não há previsão de conclusão nem cobrança de ritmo — e é justamente essa cobrança que impede a preparação de escorregar.'
+    ));
+    raiz.appendChild(el('button', {
+      class: 'btn btn--primario btn--bloco mt8',
+      onclick: () => ir('ajustes'),
+    }, 'Definir a data da prova'));
+  } else {
+    raiz.appendChild(el('div', { class: 'grid-stats' },
+      box(cp.passou ? '—' : String(cp.dias), 'dias para a prova'),
+      box(`${r.pct}%`, 'do edital'),
+      box(String(r.restantes), 'níveis restantes')
+    ));
+    raiz.appendChild(el('p', { style: { fontSize: '11.5px', color: 'var(--txt-3)', textAlign: 'center', margin: '8px 0 0' },
+      txt: `prova marcada para ${fmtDataBR(cp.iso)}` }));
   }
+
+  raiz.appendChild(secao('Conclusão do edital'));
+  raiz.appendChild(el('div', { class: 'card' },
+    barra(r.pct, { classe: 'barra--ouro' }),
+    el('div', { class: 'painel-xp__num' },
+      el('span', { txt: `${r.niveisFeitos} de ${r.niveisTotal} níveis` }),
+      el('span', { txt: `${r.pct}% ponderado por peso` })
+    ),
+    el('p', { style: { fontSize: '12px', color: 'var(--txt-3)', margin: '10px 0 0', lineHeight: '1.6' },
+      html: `Este percentual é <b>ponderado pelo peso</b>: terminar uma matéria de peso 5 move mais o ponteiro do que terminar uma de peso 2 — porque na prova vale mesmo. Sem ponderação você está em <b>${r.pctSimples}%</b>.` })
+  ));
+
+  raiz.appendChild(secao('Ritmo'));
+  const linhas = [
+    ['Níveis concluídos nos últimos 28 dias', String(r.feitosJanela)],
+    ['Seu ritmo atual', r.ritmoDia > 0 ? `${(r.ritmoDia * 7).toFixed(1).replace('.0', '')} níveis por semana` : 'ainda sem dados'],
+    ['Ritmo necessário até a prova', r.necessarioDia ? `${(r.necessarioDia * 7).toFixed(1).replace('.0', '')} níveis por semana` : '—'],
+    ['Previsão de conclusão', r.previsaoISO ? fmtDataBR(r.previsaoISO) : 'indefinida'],
+  ];
+  raiz.appendChild(el('div', { class: 'card' },
+    ...linhas.map(([rot, val]) => el('div', { class: 'linha entre g8', style: { padding: '7px 0', fontSize: '13px' } },
+      el('span', { style: { color: 'var(--txt-3)' }, txt: rot }),
+      el('span', { style: { fontFamily: 'var(--f-mono)', fontSize: '12.5px', textAlign: 'right' }, txt: val })
+    ))
+  ));
+
+  const VEREDITOS = {
+    'em-dia': ['em-dia', '✓ A conta fecha. No ritmo atual você termina o edital com folga para revisar.'],
+    apertado: ['apertado', '⚠ Fecha em cima da hora. Sem margem para imprevisto nem para revisão final — um degrau a mais por semana resolve.'],
+    atrasado: ['atrasado', '✘ A conta <b>não</b> fecha. No ritmo atual o edital não termina antes da prova. Ou sobe o ritmo, ou escolhemos o que sacrificar — e essa escolha é melhor feita agora do que na véspera.'],
+    'sem-dados': ['', 'Ainda não há níveis concluídos suficientes para medir ritmo.'],
+    concluido: ['em-dia', '✓ Edital concluído. Daqui até a prova é revisão, simulado e lei seca.'],
+    'sem-data': ['', 'Defina a data da prova para eu calcular a previsão.'],
+    passou: ['', 'A data marcada já passou. Atualize em Ajustes.'],
+  };
+  const [classe, texto] = VEREDITOS[r.veredito] || ['', ''];
+  if (texto) raiz.appendChild(el('div', { class: `prova__veredito ${classe ? `prova__veredito--${classe}` : ''}`, style: { marginTop: '14px' }, html: texto }));
+
+  /* Caderno de erros como porta de saída natural */
+  const err = resumoErros();
+  if (err.total) {
+    raiz.appendChild(secao('Caderno de erros'));
+    raiz.appendChild(el('button', {
+      class: 'acao',
+      style: { width: '100%', textAlign: 'left' },
+      onclick: () => ir('caderno'),
+    },
+      el('span', { class: 'acao__ico', txt: '📓' }),
+      el('span', { class: 'acao__tit', txt: `${err.abertos} erros ainda em aberto` }),
+      el('span', { class: 'acao__sub', txt: `${err.fechados} já fechados · ${err.reincidentes} reincidentes` })
+    ));
+  }
+}
+
+/* ---------------- Matérias por prioridade ---------------- */
+function montarMaterias(raiz) {
+  raiz.appendChild(el('p', { style: { fontSize: '12.5px', color: 'var(--txt-3)', lineHeight: '1.6', margin: '4px 0 10px' },
+    html: 'Uma fórmula só para "o que eu estudo agora?": <b>peso da matéria</b> × <b>o quanto ela ainda dói</b> × <b>o quanto falta dela</b>, com empurrão do que está vencido na revisão. O topo da lista é onde seu próximo minuto rende mais.' }));
+
+  const linhas = prioridadeMaterias();
+  linhas.forEach((l, i) => {
+    const cartao = el('button', {
+      class: 'prio__linha',
+      onclick: () => ir('materia', { matId: l.mat.id }),
+    },
+      el('span', { class: 'prio__pos', txt: String(i + 1) }),
+      el('span', { style: { fontSize: '20px' }, txt: l.mat.ico }),
+      el('span', { class: 'crescer', style: { minWidth: 0 } },
+        el('span', { style: { display: 'block', fontSize: '13.5px', fontWeight: '650' }, txt: l.mat.curto }),
+        el('span', { class: 'linha g6', style: { flexWrap: 'wrap', marginTop: '4px' } },
+          chip(`peso ${l.mat.peso}`, l.mat.peso >= 5 ? 'chip--peso5' : ''),
+          chip(`${l.feitos}/${l.total} níveis`),
+          l.q ? chip(`${l.taxa}%`, l.taxa >= 70 ? 'chip--certo' : 'chip--errado') : chip('sem histórico'),
+          l.vencidas ? chip(`${l.vencidas} vencidas`, 'chip--errado') : null
+        )
+      ),
+      el('span', { class: 'prio__barra' }, barra(l.indice, { fina: true, classe: i === 0 ? '' : 'barra--fina' })),
+      el('span', { class: 'prio__val', txt: `${l.indice}` })
+    );
+    cartao.style.setProperty('--cor-mat', l.mat.cor);
+    raiz.appendChild(cartao);
+  });
 }
 
 /* ---------------- Conquistas ---------------- */

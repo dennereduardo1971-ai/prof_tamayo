@@ -12,6 +12,21 @@ export const INTERVALOS = [0, 1, 2, 4, 9, 18, 35, 70];
 export const CAIXA_MAX = INTERVALOS.length - 1;
 export const CAIXA_DOMINIO = 5;   // a partir daqui, consideramos domínio
 
+/* Tempo esperado de resposta, em segundos, por dificuldade (1..3).
+   Acertar acima disso é acerto frágil: conta como qualidade 3 e o
+   intervalo encurta. Conhecimento que precisa ser garimpado não está pronto. */
+export const SEG_ESPERADO = [0, 60, 90, 130];
+
+/* Acima disso o cronômetro não é confiável (celular no bolso, interrupção).
+   O tempo é simplesmente ignorado. */
+export const SEG_ABANDONO = 600;
+
+/** Acertou, mas devagar demais para o nível da questão? */
+export function acertoLento(seg, dif = 2) {
+  if (!seg || seg >= SEG_ABANDONO) return false;
+  return seg > SEG_ESPERADO[clamp(dif, 1, 3)];
+}
+
 export function ficha(qid, meta = {}) {
   if (!S.srs[qid]) {
     S.srs[qid] = {
@@ -23,6 +38,11 @@ export function ficha(qid, meta = {}) {
       vistas: 0,
       ultima: null,
       fac: 2.5,
+      segMedio: 0,          // média de tempo de resposta
+      ultimoSeg: null,      // tempo da última resposta
+      lentos: 0,            // acertos que vieram devagar demais
+      ultimaEscolha: null,  // índice da alternativa marcada no último erro
+      ultimoErro: null,     // 'YYYY-MM-DD' do último erro
       mat: meta.mat || null,
       niv: meta.niv || null,
       dif: meta.dif || 2,
@@ -37,7 +57,7 @@ export function ficha(qid, meta = {}) {
  * Registra uma resposta.
  * @param {string} qid
  * @param {boolean} acertou
- * @param {object} meta { mat, niv, dif }
+ * @param {object} meta { mat, niv, dif, seg, escolha }
  * @param {number|null} qualidade 0..5 (autoavaliação da revisão); null usa acertou
  */
 export function responder(qid, acertou, meta = {}, qualidade = null) {
@@ -45,7 +65,16 @@ export function responder(qid, acertou, meta = {}, qualidade = null) {
   f.vistas += 1;
   f.ultima = hojeISO();
 
-  const q = qualidade !== null ? qualidade : (acertou ? 4 : 1);
+  /* Tempo de resposta: alimenta a média e detecta o acerto frágil. */
+  const seg = Number(meta.seg) || 0;
+  const lento = acertou && acertoLento(seg, meta.dif || f.dif || 2);
+  if (seg > 0 && seg < SEG_ABANDONO) {
+    f.ultimoSeg = seg;
+    f.segMedio = f.segMedio ? Math.round(f.segMedio * 0.7 + seg * 0.3) : seg;
+  }
+  if (lento) f.lentos = (f.lentos || 0) + 1;
+
+  const q = qualidade !== null ? qualidade : (acertou ? (lento ? 3 : 4) : 1);
 
   if (acertou) {
     f.acertos += 1;
@@ -59,10 +88,38 @@ export function responder(qid, acertou, meta = {}, qualidade = null) {
   } else {
     f.erros += 1;
     f.acertosSeguidos = 0;
+    f.ultimoErro = hojeISO();
+    if (meta.escolha !== undefined) f.ultimaEscolha = meta.escolha;
     f.fac = clamp(f.fac - 0.22, 1.3, 2.9);
     // Erro derruba duas caixas: o conteúdo volta a doer logo.
     f.caixa = Math.max(0, f.caixa - 2);
     f.proxima = hojeISO();
+  }
+  salvar();
+  return f;
+}
+
+/**
+ * Ajuste fino do intervalo pela autoavaliação da revisão.
+ * Não reconta a resposta — quem contou foi `responder()`. Aqui só mexemos
+ * no fator de facilidade e na próxima data, como os botões prometem:
+ * Difícil volta amanhã · Bom mantém · Fácil afasta mais.
+ */
+export function ajustarQualidade(qid, qualidade, acertou = true) {
+  const f = S.srs[qid];
+  if (!f) return null;
+  f.fac = clamp(f.fac + (0.1 - (5 - qualidade) * (0.08 + (5 - qualidade) * 0.02)), 1.3, 2.9);
+
+  if (!acertou) {
+    // Errou: nenhuma autoavaliação afasta a questão. Ela volta hoje.
+    f.proxima = hojeISO();
+  } else if (qualidade <= 2) {
+    f.caixa = Math.max(0, f.caixa - 1);
+    f.proxima = diaISOMais(hojeISO(), 1);
+  } else {
+    if (qualidade >= 5) f.caixa = Math.min(CAIXA_MAX, f.caixa + 1);
+    const dias = Math.max(1, Math.round(INTERVALOS[f.caixa] * (f.fac / 2.5)));
+    f.proxima = diaISOMais(hojeISO(), dias);
   }
   salvar();
   return f;
@@ -96,6 +153,63 @@ export function resumoSrs() {
     else if (f.vistas > 0) aprendendo += 1;
   }
   return { total, atrasadas, hoje: hojeQ, pendentes: atrasadas + hojeQ, aprendendo, dominadas };
+}
+
+/**
+ * Carga de revisão dos próximos dias — a agenda que não existia.
+ * Devolve [{ iso, n, porMat }] incluindo hoje (que soma os atrasados).
+ */
+export function cargaFutura(dias = 7) {
+  const hoje = hojeISO();
+  const janela = {};
+  for (let i = 0; i < dias; i++) janela[diaISOMais(hoje, i)] = { iso: diaISOMais(hoje, i), n: 0, porMat: {} };
+
+  for (const f of Object.values(S.srs)) {
+    // Tudo que já venceu pesa no dia de hoje.
+    const alvo = f.proxima <= hoje ? hoje : f.proxima;
+    const dia = janela[alvo];
+    if (!dia) continue;
+    dia.n += 1;
+    const k = f.mat || '—';
+    dia.porMat[k] = (dia.porMat[k] || 0) + 1;
+  }
+  return Object.values(janela);
+}
+
+/** Quantas revisões vencem dentro dos próximos n dias (hoje incluído). */
+export function totalFuturo(dias = 7) {
+  return cargaFutura(dias).reduce((a, d) => a + d.n, 0);
+}
+
+/**
+ * Caderno de erros: questões já erradas, mais recorrentes primeiro.
+ * `apenasAbertas` deixa de fora o que já virou domínio — o erro foi fechado.
+ */
+export function erradas({ mat = null, apenasAbertas = false, limite = Infinity } = {}) {
+  const lista = Object.entries(S.srs)
+    .filter(([, f]) => (f.erros || 0) > 0)
+    .filter(([, f]) => (mat ? f.mat === mat : true))
+    .filter(([, f]) => (apenasAbertas ? f.caixa < CAIXA_DOMINIO : true))
+    .map(([qid, f]) => ({ qid, f }));
+
+  lista.sort((a, b) => {
+    if (b.f.erros !== a.f.erros) return b.f.erros - a.f.erros;   // recorrência primeiro
+    if (a.f.caixa !== b.f.caixa) return a.f.caixa - b.f.caixa;   // depois, fragilidade
+    return String(b.f.ultimoErro || '').localeCompare(String(a.f.ultimoErro || ''));
+  });
+  return lista.slice(0, limite);
+}
+
+/** Resumo do caderno de erros. */
+export function resumoErros() {
+  let total = 0, abertos = 0, fechados = 0, reincidentes = 0;
+  for (const f of Object.values(S.srs)) {
+    if (!(f.erros > 0)) continue;
+    total += 1;
+    if (f.caixa >= CAIXA_DOMINIO) fechados += 1; else abertos += 1;
+    if (f.erros > 1) reincidentes += 1;
+  }
+  return { total, abertos, fechados, reincidentes };
 }
 
 /** Pontos fracos: matérias/níveis com mais erros acumulados. */

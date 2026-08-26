@@ -114,6 +114,20 @@ export function fmtDuracaoLonga(seg) {
   return `${m}min`;
 }
 
+/** 'YYYY-MM-DD' -> '26/08/2026'. Devolve '' para valor vazio. */
+export function fmtDataBR(iso) {
+  if (!iso) return '';
+  const [a, m, d] = String(iso).split('-');
+  return `${d}/${m}/${a}`;
+}
+
+/** 'YYYY-MM-DD' -> '26/08'. */
+export function fmtDataCurta(iso) {
+  if (!iso) return '';
+  const [, m, d] = String(iso).split('-');
+  return `${d}/${m}`;
+}
+
 export function fmtNum(n) {
   return new Intl.NumberFormat('pt-BR').format(Math.round(n));
 }

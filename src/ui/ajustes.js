@@ -2,7 +2,7 @@
    Ajustes, perfil e dados
    ============================================================ */
 
-import { el, esc, clamp, fmtNum } from '../util.js';
+import { el, esc, clamp, fmtNum, hojeISO, fmtDataBR, diffDias } from '../util.js';
 import { tela, topbar, corpo, chip, secao, barra } from './components.js';
 import { ir, voltar, limparPilha } from '../router.js';
 import { som, ligarSom } from '../audio.js';
@@ -48,6 +48,37 @@ export function telaAjustes() {
       ),
       el('div', { class: 'ajuste__sub', txt: 'O mínimo combinado é 1 hora por dia.' }),
       el('div', { style: { marginTop: '10px' } }, slider)
+    )
+  ));
+
+  /* Data da prova */
+  const rotuloProva = el('div', { class: 'ajuste__sub' });
+  const pintarProva = () => {
+    const iso = S.perfil.dataProva;
+    if (!iso) {
+      rotuloProva.textContent = 'Sem data definida — sem data, não há previsão nem cobrança de ritmo.';
+      return;
+    }
+    const d = diffDias(hojeISO(), iso);
+    rotuloProva.innerHTML = d >= 0
+      ? `Faltam <b>${d}</b> dia${d === 1 ? '' : 's'} para ${fmtDataBR(iso)}.`
+      : `A data ${fmtDataBR(iso)} já passou. Marque a próxima.`;
+  };
+  pintarProva();
+
+  const campoProva = el('input', {
+    class: 'onb__campo', type: 'date', value: S.perfil.dataProva || '',
+    oninput: (e) => {
+      S.perfil.dataProva = e.target.value || null;
+      pintarProva();
+      salvar();
+    },
+  });
+  raiz.appendChild(el('div', { class: 'ajuste' },
+    el('div', { class: 'ajuste__corpo' },
+      el('div', { class: 'ajuste__tit', txt: 'Data da prova' }),
+      rotuloProva,
+      el('div', { style: { marginTop: '10px' } }, campoProva)
     )
   ));
 

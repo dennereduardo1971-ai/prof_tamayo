@@ -12,6 +12,7 @@ import { S, progNivel, progMateria, salvar, registrar, hojeISO } from '../state.
 import { ganharXp, XP, extras, conferirConquistas, patenteDe, progressoPatente } from '../gamification.js';
 import { FALAS } from '../data/dialogues.js';
 import { cenaTamayo, fala, retratoTamayo } from '../tamayo.js';
+import { blocoAlternativas } from './quiz.js';
 import { materia as buscaMateria, nivel as buscaNivel, MATERIAS } from '../data/index.js';
 import { anunciarConquista } from './quiz.js';
 
@@ -246,7 +247,8 @@ function blocoErros(res) {
     },
       el('div', { style: { marginBottom: '6px' }, html: md(q.enunciado) }),
       el('div', { style: { color: 'var(--certo)', marginBottom: '6px' }, html: `<b>Correta:</b> ${md(q.tipo === 'ce' ? (q.correta === 0 ? 'Certo' : 'Errado') : q.alts[q.correta])}` }),
-      el('div', { html: md(q.expl) })
+      el('div', { html: md(q.expl) }),
+      blocoAlternativas(q, r.escolha)
     );
     const linha = el('button', {
       class: 'gabarito-item',

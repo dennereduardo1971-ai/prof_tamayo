@@ -18,6 +18,9 @@ import { telaResultado } from './ui/resultado.js';
 import { telaRevisao } from './ui/revisao.js';
 import { telaSimulado } from './ui/simulado.js';
 import { telaProgresso } from './ui/progresso.js';
+import { telaCaderno } from './ui/caderno.js';
+import { telaMapa } from './ui/mapa.js';
+import { telaLeiSeca } from './ui/leiseca.js';
 import { telaAjustes } from './ui/ajustes.js';
 import { telaOnboarding } from './ui/onboarding.js';
 
@@ -32,6 +35,9 @@ registrarTela('resultado', telaResultado);
 registrarTela('revisao', telaRevisao);
 registrarTela('simulado', telaSimulado);
 registrarTela('progresso', telaProgresso);
+registrarTela('caderno', telaCaderno);
+registrarTela('mapa', telaMapa);
+registrarTela('leiseca', telaLeiSeca);
 registrarTela('ajustes', telaAjustes);
 registrarTela('onboarding', telaOnboarding);
 

@@ -81,6 +81,13 @@ export const FALAS = {
     'Essa era das difíceis. E você derrubou. Anote: você é capaz do nível alto.',
     'Questão pesada, resposta certa. Sabe o que isso significa? Que o método está funcionando.',
   ],
+  acertoLento: [
+    'Certo — mas você demorou. Na prova, esse tempo sai de outra questão. Vou trazer esta de volta mais cedo.',
+    'Acertou garimpando. Conhecimento que precisa ser escavado ainda não está pronto: volta antes.',
+    'Resposta certa, relógio errado. Marquei como frágil — quero ver isso sair no automático.',
+    'Você chegou lá. Devagar demais, mas chegou. Da próxima quero a mesma resposta em metade do tempo.',
+  ],
+
   erro: [
     'Errado — e tudo bem. Erro em treino é remédio; erro na prova é ferida. Leia a explicação com atenção.',
     'Não foi dessa vez. Não se irrite: entenda. Depois eu trago essa questão de volta.',
@@ -160,6 +167,41 @@ export const FALAS = {
   ],
 
   /* ---------- Ociosidade / foco ---------- */
+  /* ---------- Caderno de erros ---------- */
+  cadernoCheio: [
+    'Aqui está tudo o que você já errou, {nome}. Não é vergonha — é mapa. Ferida catalogada é ferida que fecha.',
+    'Este é o seu caderno de erros. Quem estuda pelo que já sabe se ilude; quem estuda por aqui, passa.',
+    'O que está no topo desta lista você errou mais de uma vez. É por aí que a prova entra.',
+  ],
+  cadernoVazio: [
+    'Caderno limpo. Ou você ainda não estudou o bastante, ou está indo bem demais. Vamos descobrir qual dos dois.',
+  ],
+
+  /* ---------- Contagem para a prova ---------- */
+  provaLonge: [
+    'Ainda há tempo — e é exatamente por isso que ele será desperdiçado, se você deixar. Ritmo constante, {nome}.',
+  ],
+  provaPerto: [
+    'A prova está logo ali, {nome}. A partir daqui não se aprende matéria nova: consolida-se o que já existe.',
+    'Últimas semanas. Revisão e simulado. Conteúdo novo agora só atrapalha.',
+  ],
+  provaAtrasada: [
+    'No ritmo atual você não termina o edital antes da prova. Não é ameaça, é aritmética. Ou sobe o ritmo, ou escolhemos o que sacrificar.',
+    'A conta não fecha, {nome}. Prefiro te dizer agora, com tempo de corrigir, do que na véspera.',
+  ],
+  provaEmDia: [
+    'No ritmo atual você termina o edital antes da prova, com folga para revisar. Mantenha exatamente isso.',
+  ],
+
+  /* ---------- Fortaleza desmentida pelos números ---------- */
+  fortalezaFalsa: [
+    'Você marcou <b>{materia}</b> como ponto forte e está com <b>{taxa}%</b> de acerto. Um de nós dois está enganado — e não sou eu.',
+    '<b>{materia}</b> era para ser sua vantagem. Com <b>{taxa}%</b>, virou risco. Vamos tratar isso hoje.',
+  ],
+  fortalezaConfirmada: [
+    '<b>{materia}</b> com <b>{taxa}%</b>. Ponto forte confirmado pelos números, não pela sua opinião. É assim que gosto.',
+  ],
+
   foco: [
     'Você parou. Está aqui ou está no celular, {nome}?',
     'Silêncio longo demais. Volte para a questão.',

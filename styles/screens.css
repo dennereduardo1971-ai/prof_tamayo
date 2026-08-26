@@ -220,12 +220,18 @@
 }
 .destaque--perigo{ background:rgba(193,39,45,.13); border-left-color:var(--sangue-claro); }
 .destaque--dica{ background:rgba(79,209,165,.09); border-left-color:var(--certo); }
+.destaque--banca{ background:rgba(176,111,214,.11); border-left-color:var(--ameixa-neon); }
+.destaque--mnemonico{ background:rgba(232,192,125,.10); border-left-color:var(--ouro); }
+.destaque--simples{ background:rgba(127,163,201,.10); border-left-color:#7fa3c9; }
 .destaque__rot{
   display:block; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
   color:var(--ouro); margin-bottom:5px; font-weight:800;
 }
 .destaque--perigo .destaque__rot{ color:var(--sangue-claro); }
 .destaque--dica .destaque__rot{ color:var(--certo); }
+.destaque--banca .destaque__rot{ color:var(--ameixa-neon); }
+.destaque--mnemonico .destaque__rot{ color:var(--ouro-claro); }
+.destaque--simples .destaque__rot{ color:#a8c4e0; }
 
 .resumo{ padding:16px; border-radius:var(--r-lg); background:rgba(91,42,110,.24); border:1px dashed rgba(242,134,174,.4); }
 .resumo h3{ font-family:var(--f-display); font-size:15px; margin:0 0 10px; color:var(--sakura-1); letter-spacing:.06em; }
@@ -507,3 +513,146 @@
 }
 .abas::-webkit-scrollbar{ display:none; }
 .abas .chip{ flex:none; padding:9px 14px; font-size:12px; }
+
+
+/* ============== MAPA MENTAL ============== */
+.mapa{ margin-top:4px; }
+.mapa__ramo{ position:relative; }
+
+.mapa__no{
+  display:flex; align-items:flex-start; gap:9px; width:100%;
+  padding:11px 12px; margin-bottom:6px;
+  background:var(--sup-1); border:1px solid var(--borda); border-radius:var(--r-md);
+  color:var(--txt-1); font:inherit; text-align:left; cursor:pointer;
+  transition:border-color .18s ease, background .18s ease, transform .12s ease;
+}
+.mapa__no:active{ transform:scale(.99); }
+.mapa__no.is-aberto{ border-color:var(--borda-forte); background:var(--sup-2); }
+.mapa__no--folha{ cursor:default; background:transparent; border-style:dashed; }
+
+.mapa__no--raiz{ padding:13px 13px; }
+.mapa__no--raiz.is-feito .mapa__marca{ background:rgba(79,209,165,.2); color:var(--certo); border-color:rgba(79,209,165,.45); }
+
+.mapa__no--n1{ font-size:13.5px; }
+.mapa__no--n2{ font-size:13px; color:var(--txt-2); }
+.mapa__no--n3{ font-size:12.5px; color:var(--txt-2); }
+
+.mapa__marca{
+  flex:none; width:26px; height:26px; border-radius:50%;
+  display:grid; place-items:center; font-size:12px; font-weight:700;
+  background:var(--sup-3); border:1px solid var(--borda); color:var(--txt-2);
+}
+.mapa__ponto{
+  flex:none; width:7px; height:7px; border-radius:50%; margin-top:7px;
+  background:var(--sakura-3); opacity:.75;
+}
+.mapa__no--n2 .mapa__ponto{ background:var(--ameixa-neon); width:6px; height:6px; }
+.mapa__no--n3 .mapa__ponto{ background:var(--txt-3); width:5px; height:5px; }
+
+.mapa__tit{ display:block; font-family:var(--f-display); font-size:15px; line-height:1.3; }
+.mapa__sub{ display:block; font-size:11.5px; color:var(--txt-3); margin-top:3px; line-height:1.45; }
+.mapa__seta{ flex:none; color:var(--sakura-2); font-size:18px; line-height:1; transition:transform .2s ease; }
+.mapa__no.is-aberto .mapa__seta{ transform:rotate(90deg); }
+
+.mapa__filhos{
+  margin:0 0 8px 13px; padding-left:13px;
+  border-left:1px solid var(--borda);
+}
+
+/* ============== LEI SECA ============== */
+.leiseca__texto{
+  font-size:15px; line-height:2.1; color:var(--txt-1);
+  background:var(--sup-1); border:1px solid var(--borda);
+  border-radius:var(--r-md); padding:16px 15px;
+}
+.leiseca__ref{
+  display:block; font-family:var(--f-mono); font-size:11.5px;
+  color:var(--txt-3); letter-spacing:.05em; margin-bottom:10px;
+}
+.lacuna{
+  display:inline-block; min-width:74px; padding:1px 9px; margin:0 2px;
+  border-bottom:2px solid var(--sakura-4); border-radius:4px 4px 0 0;
+  background:rgba(242,134,174,.10); color:var(--txt-3);
+  font-family:var(--f-mono); font-size:13px; text-align:center;
+  cursor:pointer; transition:background .16s ease, color .16s ease;
+}
+.lacuna.is-alvo{ background:rgba(242,134,174,.28); color:var(--sakura-1); border-bottom-color:var(--sakura-1); }
+.lacuna.is-preenchida{ background:rgba(255,255,255,.06); color:var(--txt-1); }
+.lacuna.is-certa{ background:rgba(79,209,165,.18); color:var(--certo); border-bottom-color:var(--certo); }
+.lacuna.is-errada{ background:rgba(255,107,122,.18); color:var(--errado); border-bottom-color:var(--errado); text-decoration:line-through; }
+
+.leiseca__banco{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.leiseca__ficha{
+  padding:9px 13px; border-radius:var(--r-sm);
+  background:var(--sup-2); border:1px solid var(--borda);
+  color:var(--txt-1); font-size:13px; font-family:var(--f-mono); cursor:pointer;
+  transition:transform .12s ease, opacity .16s ease, border-color .16s ease;
+}
+.leiseca__ficha:active{ transform:scale(.95); }
+.leiseca__ficha.is-usada{ opacity:.32; pointer-events:none; }
+.leiseca__ficha:hover{ border-color:var(--borda-forte); }
+
+/* ============== PAINEL DA PROVA ============== */
+.prova{ position:relative; overflow:hidden; }
+.prova__dias{
+  font-family:var(--f-display); font-size:44px; line-height:1;
+  color:var(--sakura-1); letter-spacing:-.02em;
+}
+.prova__rot{ font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--txt-3); }
+.prova__veredito{
+  margin-top:12px; padding:11px 13px; border-radius:var(--r-md);
+  font-size:13px; line-height:1.6; border:1px solid var(--borda);
+}
+.prova__veredito--em-dia{ background:rgba(79,209,165,.10); border-color:rgba(79,209,165,.34); }
+.prova__veredito--apertado{ background:rgba(255,200,87,.10); border-color:rgba(255,200,87,.34); }
+.prova__veredito--atrasado{ background:rgba(255,107,122,.11); border-color:rgba(255,107,122,.36); }
+
+/* ============== AGENDA DE REVISÃO ============== */
+.agenda{ display:flex; align-items:flex-end; gap:5px; height:96px; margin-top:4px; }
+.agenda__col{ flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:5px; height:100%; }
+.agenda__barra{
+  width:100%; border-radius:5px 5px 2px 2px; min-height:3px;
+  background:linear-gradient(180deg, var(--sakura-3), var(--ameixa));
+  transition:height .5s cubic-bezier(.16,.84,.34,1);
+}
+.agenda__col--hoje .agenda__barra{ background:linear-gradient(180deg, var(--errado), var(--sangue)); }
+.agenda__col--vazio .agenda__barra{ background:var(--sup-3); }
+.agenda__n{ font-size:11px; font-family:var(--f-mono); color:var(--txt-2); }
+.agenda__d{ font-size:10px; color:var(--txt-3); letter-spacing:.04em; }
+
+/* ============== PRIORIDADE ============== */
+.prio__linha{
+  display:flex; align-items:center; gap:10px; width:100%;
+  padding:11px 12px; margin-bottom:8px; text-align:left;
+  background:var(--sup-1); border:1px solid var(--borda); border-radius:var(--r-md);
+  color:var(--txt-1); font:inherit; cursor:pointer;
+}
+.prio__linha:active{ transform:scale(.99); }
+.prio__pos{
+  flex:none; width:24px; text-align:center;
+  font-family:var(--f-display); font-size:15px; color:var(--txt-3);
+}
+.prio__barra{ width:70px; flex:none; }
+.prio__val{ flex:none; width:38px; text-align:right; font-family:var(--f-mono); font-size:12px; color:var(--txt-2); }
+
+
+/* ============== JUSTIFICATIVA POR ALTERNATIVA ============== */
+.alt-justs{
+  margin-top:12px; padding-top:12px;
+  border-top:1px solid var(--borda);
+}
+.alt-justs > .rot{
+  display:block; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--txt-3); margin-bottom:9px;
+}
+.alt-just{
+  display:flex; gap:9px; align-items:flex-start;
+  padding:9px 10px; margin-bottom:6px; border-radius:var(--r-sm);
+  background:rgba(255,255,255,.03); border-left:2px solid var(--borda);
+}
+.alt-just--certa{ background:rgba(79,209,165,.08); border-left-color:var(--certo); }
+.alt-just--errada{ background:rgba(255,107,122,.06); border-left-color:rgba(255,107,122,.4); }
+.alt-just__ico{ flex:none; font-size:12px; line-height:1.5; }
+.alt-just__rot{ display:block; font-size:12.5px; line-height:1.5; margin-bottom:3px; }
+.alt-just__rot .chip{ margin-left:6px; padding:2px 7px; font-size:10px; }
+.alt-just__txt{ display:block; font-size:12.5px; line-height:1.6; color:var(--txt-2); }

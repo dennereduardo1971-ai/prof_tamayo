@@ -3,6 +3,9 @@
 > Documento de trabalho. Analisa um prompt de "assistente de estudos" gerado por outra IA,
 > separa o que serve do que não serve para **este** projeto, e transforma o que serve
 > num plano de execução com arquivos e ordem.
+>
+> **Status: as Fases 0 a 3 foram implementadas.** O que ficou pendente está listado em
+> [O que ficou para depois](#o-que-ficou-para-depois), no fim do documento.
 
 ---
 
@@ -155,11 +158,11 @@ disciplina é o produto, não enrolação).
 
 ---
 
-## Achado paralelo: README desatualizado
+## Achado paralelo: README desatualizado ✅ corrigido
 
-O README anuncia **53 níveis e 362 questões**. O repositório tem hoje **83 níveis e 596 questões**
-(435 múltipla + 161 certo/errado). A tabela de matérias também está defasada — ex.: Constitucional
-está com 12 níveis / 96 questões, não 6 / 48.
+O README anunciava **53 níveis e 362 questões**. O repositório tem **83 níveis e 596 questões**
+(435 múltipla + 161 certo/errado), 42 conquistas e a tabela de matérias defasada — Constitucional
+está com 12 níveis / 96 questões, não 6 / 48. Corrigido nesta leva.
 
 ---
 
@@ -167,7 +170,7 @@ está com 12 níveis / 96 questões, não 6 / 48.
 
 Ordenado por *destrava outras coisas* → *usa dados que já temos* → *exige conteúdo novo*.
 
-### Fase 0 — Fundações (baratas, destravam o resto)
+### Fase 0 — Fundações ✅
 
 | # | O quê | Arquivos | Esforço |
 |---|---|---|---|
@@ -175,7 +178,7 @@ Ordenado por *destrava outras coisas* → *usa dados que já temos* → *exige c
 | 0.2 | **Persistir tempo e escolha**: gravar `segMedio`/`ultimoSeg` e `ultimaEscolha` na ficha SRS | `srs.js`, `ui/quiz.js` | P |
 | 0.3 | **Corrigir o README** (níveis, questões, tabela por matéria) | `README.md` | P |
 
-### Fase 1 — Colher o que já está plantado (sem conteúdo novo)
+### Fase 1 — Colher o que já está plantado ✅
 
 | # | O quê | Arquivos | Esforço |
 |---|---|---|---|
@@ -185,7 +188,7 @@ Ordenado por *destrava outras coisas* → *usa dados que já temos* → *exige c
 | 1.4 | **Índice de prioridade unificado** e reordenação coerente em Home e Progresso | `srs.js`/`gamification.js`, `ui/home.js`, `ui/progresso.js` | M |
 | 1.5 | **Acerto lento = acerto fraco** (usa 0.2): qualidade 3 encurta o intervalo | `srs.js` | P |
 
-### Fase 2 — Conteúdo (o que mais move o ponteiro na nota)
+### Fase 2 — Conteúdo ✅ (código pronto, conteúdo em ondas)
 
 | # | O quê | Arquivos | Esforço |
 |---|---|---|---|
@@ -193,7 +196,7 @@ Ordenado por *destrava outras coisas* → *usa dados que já temos* → *exige c
 | 2.2 | **Contrato de aula em 6 camadas**: destaques `banca` e `mnemonico` + checklist de autoria documentado | `ui/components.js`, `styles/components.css`, `README.md`, `src/data/*.js` | M |
 | 2.3 | **Mapa mental navegável**: campo `mapa` (árvore) por matéria + tela expansível | `src/data/*.js`, `ui/mapa.js` (novo) | M |
 
-### Fase 3 — Mecânicas novas
+### Fase 3 — Mecânicas novas ✅
 
 | # | O quê | Arquivos | Esforço |
 |---|---|---|---|
@@ -218,8 +221,38 @@ Ordenado por *destrava outras coisas* → *usa dados que já temos* → *exige c
 
 ---
 
-## Sequência recomendada
+## O que foi entregue
 
-**Fase 0 inteira** (destrava tudo e é quase de graça) → **1.1 Caderno de erros** (maior valor
-percebido por linha de código) → **1.2 painel "vou dar conta?"** → **2.1 `expls[]`** (o de maior
-efeito na nota, mas o mais longo — começar cedo e ir em ondas) → resto.
+| Entrega | Onde |
+|---|---|
+| Data da prova no perfil, onboarding, ajustes e contagem regressiva | `state.js`, `ui/onboarding.js`, `ui/ajustes.js`, `ui/home.js` |
+| Tempo por questão e alternativa marcada persistidos na ficha SRS | `srs.js`, `ui/quiz.js` |
+| **Acerto lento = acerto frágil** (qualidade 3, intervalo encurta) | `srs.js` |
+| Autoavaliação da revisão deixou de contar a resposta duas vezes | `srs.js` (`ajustarQualidade`), `ui/quiz.js` |
+| Caderno de erros filtrável, com o que foi marcado e treino direto | `ui/caderno.js` |
+| Painel "dá tempo?": % ponderado, previsão, ritmo x necessário | `gamification.js`, `ui/home.js`, `ui/progresso.js` |
+| Agenda de revisão dos próximos 7 dias | `srs.js` (`cargaFutura`), `ui/revisao.js` |
+| Índice de prioridade unificado | `gamification.js`, `ui/progresso.js` |
+| Plano do dia em blocos, dimensionado pela meta | `gamification.js` (`planoDoDia`), `ui/home.js` |
+| Fortaleza declarada confrontada com o desempenho real | `gamification.js`, `ui/home.js`, `data/dialogues.js` |
+| `expls[]` alternativa por alternativa (motor + 11 questões) | `ui/quiz.js`, `ui/resultado.js`, `data/constitucional.js` |
+| Destaques `simples`, `banca` e `mnemonico` + contrato documentado | `ui/components.js`, `styles/screens.css`, `README.md` |
+| Mapa mental navegável das 12 matérias | `ui/mapa.js`, campo `mapa` em `data/*.js` |
+| Modo lei seca com 33 dispositivos e 81 lacunas | `data/leis.js`, `ui/leiseca.js` |
+| Teste de fumaça de ponta a ponta (26 passos) | `scripts/smoke.mjs` |
+| README corrigido (era 53 níveis / 362 questões; são 83 / 596) | `README.md` |
+
+---
+
+## O que ficou para depois
+
+1. **`expls[]` no resto do banco.** O motor está pronto e 11 questões de Constitucional servem
+   de modelo. Faltam ~424 questões de múltipla escolha. Ordem sugerida: terminar Constitucional
+   → Processo Legislativo → Português (os três peso 5) → peso 4 → resto.
+2. **Contrato de 6 camadas nas outras 82 aulas.** `con-1` é o exemplar completo.
+3. **Campo `mapa` autoral nos demais níveis.** Sem ele o mapa é derivado dos tópicos e do resumo
+   — funciona, mas rende menos que uma árvore escrita à mão.
+4. **Regimento Interno da Câmara no corpus de lei seca.** É a lei mais cobrada no cargo e ainda
+   não está em `data/leis.js`; entra assim que o edital confirmar os artigos exigidos.
+5. **Conferir os dispositivos contra a fonte oficial** quando o edital sair — sobretudo os que
+   sofreram emenda recente.

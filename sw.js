@@ -4,7 +4,7 @@
    sem internet), com atualização em segundo plano.
    ============================================================ */
 
-const VERSAO = 'tamayo-v1';
+const VERSAO = 'tamayo-v2';
 const SHELL = [
   "./",
   "./index.html",
@@ -26,7 +26,10 @@ const SHELL = [
   "./src/ui/ajustes.js",
   "./src/ui/aula.js",
   "./src/ui/components.js",
+  "./src/ui/caderno.js",
   "./src/ui/home.js",
+  "./src/ui/leiseca.js",
+  "./src/ui/mapa.js",
   "./src/ui/onboarding.js",
   "./src/ui/progresso.js",
   "./src/ui/quiz.js",
@@ -43,6 +46,7 @@ const SHELL = [
   "./src/data/etica.js",
   "./src/data/index.js",
   "./src/data/informatica.js",
+  "./src/data/leis.js",
   "./src/data/ingles.js",
   "./src/data/portugues.js",
   "./src/data/processo_legislativo.js",

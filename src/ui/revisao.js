@@ -2,12 +2,12 @@
    Revisão espaçada — as feridas abertas
    ============================================================ */
 
-import { el, esc, pct, fmtNum } from '../util.js';
-import { tela, topbar, corpo, navInferior, barra, chip, secao, vazio } from './components.js';
+import { el, esc, diaSemana, DIAS_SEM, fmtDataCurta } from '../util.js';
+import { tela, topbar, corpo, navInferior, chip, secao, vazio } from './components.js';
 import { ir, limparPilha } from '../router.js';
 import { S } from '../state.js';
-import { resumoSrs, vencidas, pontosFracos, INTERVALOS, CAIXA_DOMINIO, CAIXA_MAX } from '../srs.js';
-import { questao as buscaQuestao, materia as buscaMateria, MATERIAS } from '../data/index.js';
+import { resumoSrs, vencidas, cargaFutura, INTERVALOS, CAIXA_DOMINIO } from '../srs.js';
+import { questao as buscaQuestao, materia as buscaMateria } from '../data/index.js';
 import { FALAS } from '../data/dialogues.js';
 import { cenaTamayo, fala } from '../tamayo.js';
 
@@ -92,6 +92,34 @@ export function telaRevisao() {
         abrirRevisao(todas, todas.length);
       },
     }, 'Revisar antecipadamente as mais frágeis'));
+  }
+
+  /* Agenda dos próximos dias — o que vem por aí, para não haver emboscada */
+  const agenda = cargaFutura(7);
+  if (agenda.some((d) => d.n > 0)) {
+    conteudo.appendChild(secao('Os próximos 7 dias'));
+    const maior = Math.max(...agenda.map((d) => d.n), 1);
+    const grafico = el('div', { class: 'agenda' });
+    agenda.forEach((d, i) => {
+      const alturaFinal = d.n ? Math.max(6, Math.round((d.n / maior) * 74)) : 3;
+      const barraEl = el('div', { class: 'agenda__barra' });
+      barraEl.style.height = '0px';
+      requestAnimationFrame(() => { barraEl.style.height = `${alturaFinal}px`; });
+      grafico.appendChild(el('div', {
+        class: `agenda__col ${i === 0 ? 'agenda__col--hoje' : ''} ${d.n ? '' : 'agenda__col--vazio'}`,
+        title: `${fmtDataCurta(d.iso)} · ${d.n} questão${d.n === 1 ? '' : 'ões'}`,
+      },
+        el('span', { class: 'agenda__n', txt: d.n ? String(d.n) : '·' }),
+        barraEl,
+        el('span', { class: 'agenda__d', txt: i === 0 ? 'hoje' : DIAS_SEM[diaSemana(d.iso)] })
+      ));
+    });
+    const total7 = agenda.reduce((a, d) => a + d.n, 0);
+    conteudo.appendChild(el('div', { class: 'card' },
+      grafico,
+      el('p', { style: { fontSize: '12px', color: 'var(--txt-3)', margin: '12px 0 0', lineHeight: '1.6' },
+        html: `<b>${total7}</b> revisões vencem nos próximos 7 dias. A coluna de hoje inclui tudo o que já estava atrasado — se ela crescer demais, a culpa é dos dias que você pulou.` })
+    ));
   }
 
   /* Explicação do sistema */

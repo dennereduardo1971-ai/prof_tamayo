@@ -13,9 +13,10 @@ empacotado como **APK** para Android.
 | | |
 |---|---|
 | **12 matérias** | organizadas nos dois blocos do edital (básicos e específicos) |
-| **53 níveis** | sequenciais, cada um com aula → exercícios → checkpoint |
-| **362 questões** | comentadas, em estilo de banca (múltipla escolha e certo/errado) |
-| **39 conquistas** | de primeira questão respondida a 100 dias de sequência |
+| **83 níveis** | sequenciais, cada um com aula → exercícios → checkpoint |
+| **596 questões** | comentadas, em estilo de banca (múltipla escolha e certo/errado) |
+| **33 dispositivos** | de lei para treinar **letra de lei** com lacunas |
+| **42 conquistas** | de primeira questão respondida a 100 dias de sequência |
 | **12 patentes** | de *Mizunoto* a *Pilar da Lua*, por XP acumulado |
 
 ### Matérias e pesos
@@ -25,18 +26,18 @@ quanto XP cada acerto vale e com que frequência ela aparece nos simulados.
 
 | Peso | Matéria | Níveis | Questões |
 |:---:|---|:---:|:---:|
-| 5 | Língua Portuguesa ★ | 6 | 46 |
-| 5 | Direito Constitucional | 6 | 48 |
-| 5 | Processo Legislativo e Regimento Interno | 6 | 48 |
-| 4 | Direito Administrativo | 5 | 35 |
+| 5 | Língua Portuguesa ★ | 9 | 70 |
+| 5 | Direito Constitucional | 12 | 96 |
+| 5 | Processo Legislativo e Regimento Interno | 8 | 64 |
+| 4 | Direito Administrativo | 8 | 59 |
 | 4 | Técnica Legislativa e Redação Oficial | 5 | 35 |
+| 3 | Raciocínio Lógico e Quantitativo | 11 | 80 |
 | 3 | Ciência Política e Teoria do Estado | 4 | 24 |
 | 3 | Administração Pública | 4 | 24 |
-| 3 | Raciocínio Lógico e Quantitativo | 4 | 24 |
-| 3 | Língua Inglesa ★ | 4 | 24 |
+| 3 | Língua Inglesa ★ | 7 | 42 |
+| 2 | Noções de Informática | 9 | 66 |
 | 2 | Ética no Serviço Público | 3 | 18 |
 | 2 | Atualidades e Realidade Brasileira | 3 | 18 |
-| 2 | Noções de Informática | 3 | 18 |
 
 ★ **Calibragem do perfil**: Português e Inglês são tratados como pontos fortes (formação em
 Letras e fluência em inglês). Nenhum conteúdo é pulado, mas as aulas são mais enxutas e as
@@ -72,8 +73,60 @@ volta   hoje   1d    2d    4d    9d   18d    35d    70d
 
 - **Acertou** → sobe de caixa, intervalo cresce.
 - **Errou** → cai **duas** caixas e volta **hoje**.
-- Na revisão há autoavaliação (*Difícil / Bom / Fácil*) que ajusta o intervalo.
+- **Acertou devagar** → conta como acerto **frágil** (qualidade 3): o intervalo encurta. O app
+  cronometra cada questão e compara com o tempo esperado para a dificuldade (60 s / 90 s / 130 s).
+  Conhecimento que precisa ser garimpado ainda não está pronto.
+- Na revisão há autoavaliação (*Difícil / Bom / Fácil*) que **afina o intervalo** sem recontar
+  a resposta — quem contou foi o registro original.
 - O sorteio de questões em prática e simulado é **ponderado**: o que você erra cai mais.
+- A **agenda dos próximos 7 dias** mostra quantas revisões vencem em cada dia, para a carga
+  nunca virar emboscada.
+
+### O relógio da prova
+No onboarding (e depois em **Ajustes**) você informa a **data da prova**. A partir dela o app
+calcula, com o ritmo real dos últimos 28 dias, três coisas que ninguém gosta de ver mas todo
+mundo precisa:
+
+- **% do edital concluído**, ponderado por peso — terminar uma matéria peso 5 move mais o ponteiro;
+- **previsão de conclusão** no ritmo atual;
+- **ritmo necessário** por semana para chegar inteira na prova.
+
+O veredito é dito sem rodeios: *em dia*, *apertado* ou *atrasado*. Em **Progresso → A prova**
+há o painel completo.
+
+### Plano do dia
+A home não sugere mais "um próximo nível": monta a **sessão inteira** dentro da sua meta de
+minutos, na ordem que faz diferença — revisão vencida → conteúdo novo (na matéria de maior
+prioridade) → reforço onde dói → lei seca quando a prova está a menos de 60 dias → simulado
+semanal.
+
+### Índice de prioridade
+Uma fórmula só para "o que eu estudo agora?":
+
+```
+prioridade = peso da matéria × (o quanto ela ainda dói
+                              + o quanto falta dela
+                              + o que está vencido na revisão)
+```
+
+Em **Progresso → Prioridade** as 12 matérias aparecem ordenadas por esse índice.
+
+### Caderno de erros
+Registro cumulativo de tudo o que você já errou: a questão, **qual alternativa você marcou**,
+a resposta correta, a explicação e um botão para treinar só aquilo. Filtra por matéria,
+separa o que ainda está aberto do que já virou domínio, e ordena por **recorrência** — o que
+você errou mais de uma vez fica no topo.
+
+### Modo lei seca
+O dispositivo aparece com os termos-chave vazados e você recompõe o texto arrastando as
+fichas. Sem alternativa para eliminar: ou a letra da lei está na memória, ou não está.
+O banco de fichas mistura os termos certos com **sinônimos jurídicos, prazos e quóruns
+vizinhos** — as trocas de que a banca vive. Cobre CF/88, Lei 8.112, Lei 9.784 e LC 95.
+
+### Mapas mentais
+Cada matéria vira uma **árvore navegável** — matéria → nível → tópicos → ramos — que abre e
+fecha ao toque. A estrutura é derivada do próprio conteúdo; níveis com o campo `mapa` ganham
+profundidade escrita à mão. Feito para a véspera, quando não há mais tempo de reler aula.
 
 ### Modos de prática
 - **Checkpoint** — todas as questões do nível, com correção comentada na hora.
@@ -82,6 +135,8 @@ volta   hoje   1d    2d    4d    9d   18d    35d    70d
 - **Simulado cronometrado** — 5 modelos (20/40/60 questões, só básicos, só específicos),
   distribuição proporcional ao peso, **sem correção durante a prova**, gabarito comentado
   e desempenho por matéria no fim.
+- **Caderno de erros** — só o que você já errou, ordenado por recorrência.
+- **Lei seca** — recompor o dispositivo pelas lacunas.
 
 ---
 
@@ -198,21 +253,27 @@ Publique no Pages e cole a URL em [pwabuilder.com](https://www.pwabuilder.com) �
 │   ├── fx.js                   flashes, toasts, modais, comemorações
 │   ├── tamayo.js               retrato SVG animado + motor de falas
 │   ├── util.js                 DOM, datas, formatação, mini-markdown
-│   ├── ui/                     onboarding · home · trilha · aula · quiz ·
-│   │                           resultado · revisão · simulado · progresso · ajustes
+│   ├── ui/                     onboarding · home · trilha · aula · quiz · resultado ·
+│   │                           revisão · simulado · progresso · caderno · mapa ·
+│   │                           leiseca · ajustes
 │   └── data/
 │       ├── index.js            registro de matérias, pesos, índice de questões
 │       ├── dialogues.js        banco de falas da Tamayo
+│       ├── leis.js             dispositivos do modo lei seca
 │       └── <matéria>.js         uma matéria por arquivo
-└── scripts/preparar-www.mjs    monta www/ para o Capacitor
+└── scripts/
+    ├── preparar-www.mjs        monta www/ para o Capacitor
+    └── smoke.mjs               teste de fumaça no navegador (Playwright)
 ```
 
 ### Persistência
 
 Tudo fica em `localStorage`, chave `tamayo.save.v1`, com cópia de segurança automática
 antes de cada gravação. O que é salvo: XP, patente, nível e estrelas por matéria, aulas
-lidas, streak e recorde, minutos e questões por dia, fichas de SRS de cada questão,
-conquistas com data, histórico de sessões, simulados e preferências.
+lidas, streak e recorde, **data da prova**, minutos e questões por dia, fichas de SRS de cada
+questão (incluindo **tempo médio de resposta** e **qual alternativa foi marcada no último
+erro**), desempenho no **modo lei seca**, conquistas com data, histórico de sessões,
+simulados e preferências.
 
 Em **Ajustes** há **exportar** e **restaurar backup** (JSON em texto) — use antes de trocar
 de aparelho ou limpar o navegador.
@@ -243,12 +304,53 @@ Formato de uma questão:
   alts: ['A', 'B', 'C', 'D', 'E'],  // omitido quando tipo === 'ce'
   correta: 0,                       // índice; em 'ce', 0 = Certo e 1 = Errado
   expl: 'Por que essa é a resposta — aparece na correção',
+  expls: [                          // opcional, mas é o que mais rende em prova:
+    'Correta. Fundamento...',       // uma justificativa por alternativa, na ordem
+    'Errada porque... (pegadinha)', // do array `alts`. Em 'ce', são dois itens.
+  ],
   tags: ['assunto'],
 }
 ```
 
+> Acertar sem saber por que as outras quatro estão erradas é onde a banca pega. Sempre que
+> puder, escreva `expls` — ele aparece na correção e no gabarito, alternativa por alternativa.
+
 > ⚠️ Nunca reaproveite um `id` já usado: ele é a chave do histórico de repetição espaçada.
 > As alternativas são embaralhadas em tempo de execução, então a ordem no arquivo não importa.
+
+---
+
+## Contrato de qualidade da aula
+
+Toda aula nova deve cobrir seis camadas. Elas existem como campos, não como boa intenção:
+
+| Camada | Onde vive |
+|---|---|
+| 📖 Definição técnica | `aula.blocos[].p` |
+| 💬 Explicação simples | destaque `{ tipo: 'simples' }` |
+| 📝 Exemplo prático | `aula.blocos[].lista` |
+| ⚖️ Como a banca cobra | destaque `{ tipo: 'banca' }` |
+| 🧠 Mnemônico | destaque `{ tipo: 'mnemonico' }` |
+| ❌ Pegadinha comum | destaque `{ tipo: 'perigo' }` |
+
+O nível `con-1` (Direito Constitucional) é o exemplar completo: use-o como modelo, inclusive
+do campo `mapa`, que dá profundidade autoral ao mapa mental daquele nível.
+
+---
+
+## Teste de fumaça
+
+```bash
+npm start            # em um terminal
+npm run smoke        # em outro
+```
+
+Percorre o app inteiro num Chromium headless: onboarding com data da prova, aula, checkpoint
+com justificativa por alternativa, caderno de erros, lei seca, mapa mental, agenda de revisão,
+painel da prova e persistência entre recarregamentos. Falha se algum passo quebrar **ou se
+aparecer qualquer erro no console**.
+
+Requer o Playwright disponível (`npx playwright install chromium` na primeira vez).
 
 ---
 
